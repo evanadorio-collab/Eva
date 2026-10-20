@@ -9,9 +9,6 @@ export async function listarCompetencias(){
 export async function entrarComEmail(email){
   return supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
 }
-export async function confirmarCodigo(email,token){
- return supabase.auth.verifyOtp({email,token,type:"email"});
-}
 export async function salvarPerfil({nome,resumo,preferencias={}}){
   const {data:{user},error:authError}=await supabase.auth.getUser();
   if(authError||!user) throw new Error("Entre na sua conta antes de salvar dados.");
