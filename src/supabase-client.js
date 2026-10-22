@@ -9,10 +9,10 @@ export async function listarCompetencias(){
 export async function entrarComEmail(email){
   return supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
 }
-export async function salvarPerfil({nome,resumo,preferencias={}}){
+export async function salvarPerfil({nome,resumo,preferencias={},validado=false}){
   const {data:{user},error:authError}=await supabase.auth.getUser();
   if(authError||!user) throw new Error("Entre na sua conta antes de salvar dados.");
-  const {data,error}=await supabase.from("perfis").upsert({usuario_id:user.id,nome,resumo,preferencias,validado_em:new Date().toISOString()},{onConflict:"usuario_id"}).select().single();
+  const {data,error}=await supabase.from("perfis").upsert({usuario_id:user.id,nome,resumo,preferencias,validado_em:validado?new Date().toISOString():null},{onConflict:"usuario_id"}).select().single();
   if(error) throw error;
   return data;
 }
