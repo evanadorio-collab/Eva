@@ -78,7 +78,7 @@ $("extractPdfBtn").addEventListener("click",async()=>{
  $("extractPdfBtn").disabled=true;$("extractStatus").textContent="Lendo seu PDF com IA. Aguarde...";
  try{
    const {data,error}=await supabase.functions.invoke("extrair-curriculo",{body:{curriculo_id:curriculoSalvoId}});
-   if(error)throw error;
+   if(error){let detalhe=error.message;try{const resposta=await error.context?.json();detalhe=resposta?.error||detalhe;}catch{}throw new Error(detalhe);}
    if(data?.error)throw new Error(data.error);
    const p=data?.perfil;if(!p)throw new Error("Nenhum perfil foi extraído.");
    ["nome","resumo","formacao","cursos","idiomas"].forEach(id=>$(id).value=p[id]||"");
