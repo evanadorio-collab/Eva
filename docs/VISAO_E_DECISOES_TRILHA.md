@@ -1,14 +1,19 @@
 # Trilha — Visão do Produto e Registro de Decisões
-**Versão:** 1.0 · **Atualizado em:** 23/10/2026 · **Estado:** documento vivo
+**Versão:** 1.1 · **Atualizado em:** 23/10/2026 · **Estado:** documento vivo
+
+> **Nome:** Trilha  
+> **Categoria:** Plataforma de Gestão de Carreira com IA  
+> **Slogan institucional:** “Seu próximo passo na carreira pode estar aqui.”  
+> **Mensagem da funcionalidade de análise:** “Mais do que saber se você combina com a vaga. Entenda por quê.”
 
 > **Princípio central:** o Trilha não apenas estima a compatibilidade com uma vaga: explica **por quê**, mostra evidências e lacunas e ajuda a pessoa a decidir seus próximos passos.
 
 ## 1. Propósito e problema
-Ajudar pessoas em recolocação ou transição profissional a compreender sua trajetória, avaliar oportunidades com critério, adaptar candidaturas e acompanhar sua busca por trabalho em um só lugar.
+Apoiar pessoas na gestão de sua trajetória profissional, desde a busca por novas oportunidades até o desenvolvimento contínuo de competências. No MVP, o foco é compreender o perfil, avaliar vagas com critério, adaptar candidaturas e acompanhar oportunidades em um só lugar.
 
-**Público inicial:** pessoas buscando recolocação ou transição de carreira no Brasil. Não restringir o produto a uma profissão específica. Comunicação, Content Design e áreas correlatas são bons cenários de teste, não uma limitação do público.
+**Público inicial:** pessoas buscando recolocação, novas oportunidades ou transição de carreira no Brasil. Não restringir o produto a uma profissão específica. Comunicação, Content Design e áreas correlatas são bons cenários de teste, não uma limitação do público.
 
-**Proposta de valor (frase de trabalho):** “Mais do que saber se você combina com a vaga. Entenda por quê.”
+**Posicionamento institucional:** plataforma de gestão de carreira com IA. O slogan institucional é “Seu próximo passo na carreira pode estar aqui.” A frase “Mais do que saber se você combina com a vaga. Entenda por quê.” comunica especificamente o diferencial da análise de compatibilidade.
 
 **Hipótese a validar:** explicações ancoradas em evidências do currículo, combinadas com recomendações práticas e gestão de candidaturas, oferecem mais valor que um indicador isolado de aderência.
 
@@ -50,6 +55,10 @@ Ajudar pessoas em recolocação ou transição profissional a compreender sua tr
 | D-11 | Separar **compatibilidade**, **interesse pessoal** e **etapa da candidatura**. | Decidido; **a implementar** |
 | D-12 | Currículo direcionado terá prévia editável e aprovação antes da exportação em PDF. | Decidido; **a implementar** |
 | D-13 | Acompanhamento aceitará vagas adicionadas manualmente e status como “Vaga cancelada”. | Decidido; **a implementar** |
+| D-14 | A seção será chamada **Minhas oportunidades**, incluindo vagas salvas mesmo sem candidatura. | Decidido; **a implementar** |
+| D-15 | MVP usa um único status para a oportunidade, sem criar campos separados de interesse, prioridade e andamento. | Decidido; **a implementar** |
+| D-16 | Posicionamento: **Plataforma de Gestão de Carreira com IA**; slogan institucional: **“Seu próximo passo na carreira pode estar aqui.”** | Decidido |
+| D-17 | PDI e recomendação de cursos são hipóteses de evolução; parcerias educacionais são hipótese de monetização, não receita validada. | Visão futura |
 
 **Importante sobre avaliações externas:** registrar apenas o que a pessoa efetivamente informou. Não apresentar uma classificação externa como se fosse calculada pelo Trilha. Recursos de compatibilidade do LinkedIn podem variar; evitar afirmações absolutas sobre o que a plataforma oferece.
 
@@ -98,10 +107,19 @@ Ajudar pessoas em recolocação ou transição profissional a compreender sua tr
 - [ ] Notas, datas, histórico de mudanças e filtros.
 - [ ] Exportação de dados e melhorias de acessibilidade.
 
-### P2 — Inteligência e evolução
-- [ ] Indicadores de candidaturas e padrões de lacunas recorrentes.
-- [ ] Recomendações de desenvolvimento profissional, sem prometer contratação.
+### P2 — Desenvolvimento de carreira
+- [ ] Indicadores de candidaturas e identificação de lacunas recorrentes, distinguindo ausência de evidência de ausência de competência.
+- [ ] **PDI (Plano de Desenvolvimento Individual):** permitir definir objetivos, ações, prazos e acompanhar evolução, com sugestões da IA revisadas pela pessoa.
+- [ ] Recomendações de desenvolvimento profissional relacionadas a objetivos e lacunas, sem prometer contratação.
 - [ ] Validar valor e usabilidade com pessoas de perfis diversos.
+
+### P3 — Parcerias educacionais e monetização (hipótese a validar)
+- [ ] Explorar recomendações de cursos alinhados a competências que a pessoa queira desenvolver.
+- [ ] Validar interesse das pessoas e viabilidade de parcerias com instituições de ensino.
+- [ ] Avaliar monetização por indicação/parcerias, sem comprometer a independência das recomendações.
+- [ ] Identificar claramente conteúdo patrocinado e critérios de recomendação; oferecer alternativas não patrocinadas quando pertinentes.
+
+**Visão integrada futura:** oportunidades analisadas → identificação de lacunas → PDI → capacitação recomendada → acompanhamento do desenvolvimento. **Nenhuma dessas etapas futuras está implementada neste momento.**
 
 ## 7. Questões em aberto
 1. Quais campos mínimos uma vaga precisa ter para ser cadastrada **sem** análise? Sugestão: título e descrição ou link; empresa opcional.
@@ -111,6 +129,8 @@ Ajudar pessoas em recolocação ou transição profissional a compreender sua tr
 5. Quais critérios e testes sustentariam uma eventual revisão dos limiares 40/60/80?
 6. Como indicar que uma análise ficou desatualizada após mudanças no perfil ou na vaga?
 7. Qual é o mínimo de dados pessoais necessário para cada função?
+8. Como testar a utilidade do PDI e das recomendações de cursos antes de construir uma solução completa?
+9. Qual modelo de parceria educacional preserva a confiança e a transparência das recomendações?
 
 ## 8. Registro cronológico de decisões
 | Data | Registro |
@@ -121,6 +141,9 @@ Ajudar pessoas em recolocação ou transição profissional a compreender sua tr
 | 23/10/2026 | Acrescentada classificação baixa/média/alta/muito alta ao percentual. |
 | 23/10/2026 | Definido que análise é opcional, avaliações externas podem ser registradas e devem manter origem distinta. |
 | 23/10/2026 | Formalizada a proposta de valor: **explicar o porquê da compatibilidade**. |
+| 23/10/2026 | Adotado o posicionamento **“Trilha — Plataforma de Gestão de Carreira com IA”** e o slogan **“Seu próximo passo na carreira pode estar aqui.”** |
+| 23/10/2026 | Registradas como visão futura as funcionalidades **PDI** e **recomendação de cursos**, com hipótese de monetização por parcerias educacionais sujeita à validação. |
+| 23/10/2026 | Confirmado o nome **“Minhas oportunidades”** para incluir vagas apenas salvas e também candidaturas; preferir um status simples, sem separar interesse e etapa em campos distintos no MVP. |
 
 ## 9. Como manter este documento
 - Registrar decisões relevantes com **data, motivação, estado e implicações**.
