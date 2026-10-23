@@ -65,7 +65,7 @@ async function carregarOportunidades(){
   const actions=document.createElement("div");actions.className="row";actions.style.marginTop="12px";
   const analyze=document.createElement("button");analyze.className="btn outline";analyze.type="button";analyze.textContent=ultima?"Analisar novamente":"Analisar com IA";analyze.addEventListener("click",()=>{$("cargo").value=v.titulo||"";$("empresa").value=v.empresa||"";$("vaga").value=v.descricao||"";go(2);});
   if(ultima){
-   const abrir=document.createElement("button");abrir.className="btn alt";abrir.type="button";abrir.textContent="Abrir análise";
+   const abrir=document.createElement("button");abrir.className="btn alt";abrir.type="button";abrir.textContent="Abrir análise salva";
    abrir.addEventListener("click",()=>{
     const d=ultima.dimensoes||{};
     $("cargo").value=v.titulo||"";$("empresa").value=v.empresa||"";$("vaga").value=v.descricao||"";
