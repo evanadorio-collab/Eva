@@ -52,7 +52,7 @@ async function carregarHistorico(){
   const v=reg.vagas||{},d=reg.dimensoes||{};
   const box=document.createElement("div");box.className="item";
   const label=document.createElement("span");label.textContent=(v.titulo||"Vaga")+" · "+(v.empresa||"Empresa não informada")+" · "+reg.pontuacao+"% · "+new Date(reg.criado_em).toLocaleDateString("pt-BR")+" ";
-  const btn=document.createElement("button");btn.className="btn outline";btn.type="button";btn.textContent="Ver análise";
+  const btn=document.createElement("button");btn.className="btn outline";btn.type="button";btn.textContent="Abrir análise";
   btn.addEventListener("click",()=>{
    $("cargo").value=v.titulo||"";$("empresa").value=v.empresa||"";$("vaga").value=v.descricao||"";
    $("analysisSaveStatus").textContent="✓ Análise recuperada do histórico.";
