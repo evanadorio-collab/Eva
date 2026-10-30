@@ -11,7 +11,7 @@
 <section id="page2" class="hidden"><div class="eyebrow">Etapa 2 de 3</div><h1>Qual oportunidade vamos analisar?</h1><p>Cole a descrição completa da vaga, com responsabilidades e requisitos. Os dados serão enviados ao Gemini para comparação com seu perfil salvo.</p><label class="field" for="cargo">Título da vaga</label><input id="cargo" placeholder="Ex.: Analista de Comunicação Interna"><label class="field" for="empresa">Empresa (opcional)</label><input id="empresa" placeholder="Nome da empresa"><label class="field" for="vaga">Descrição da vaga</label><textarea id="vaga" style="min-height:230px" placeholder="Cole aqui a descrição real da vaga, incluindo requisitos obrigatórios e desejáveis."></textarea><p class="muted">A avaliação usa IA e pode cometer erros. Confira os requisitos no anúncio original.</p><p id="analysisStatus" class="muted" role="status" aria-live="polite"></p><div class="row" style="margin-top:24px"><button class="btn outline" onclick="go(1)">Voltar</button><button id="saveOpportunityBtn" class="btn alt" type="button">Salvar sem analisar</button><button id="analyzeBtn" class="btn" type="button">Analisar compatibilidade com IA →</button><button class="btn outline" type="button" onclick="go(4)">Minhas oportunidades</button></div></section>
 <section id="page3" class="hidden"><div class="eyebrow">Etapa 3 de 3 · Análise por IA</div><h1>Uma visão mais clara da oportunidade.</h1><p id="jobtitle"></p><div class="grid"><div class="card soft"><span class="pill">Estimativa de aderência por IA · não é chance de contratação</span><p class="muted">Compatibilidade estimada</p><div class="score"><span id="scoreValue">—</span><small>%</small></div><p id="scoreLevel" style="font-weight:700;font-size:1.1rem;margin-top:4px" aria-live="polite"></p><div class="bar"><div id="scoreBar" style="width:0%"></div></div><h3>Justificativa</h3><p id="analysisReason"></p><h3>Critérios utilizados</h3><p id="analysisCriteria" class="muted"></p></div><div class="card"><h3>Pontos de aderência e evidências</h3><div id="analysisStrengths"></div><h3 style="margin-top:22px">Lacunas e pontos a verificar</h3><div id="analysisGaps"></div></div></div><div class="card" style="margin-top:20px"><h3>Recomendações</h3><div id="analysisRecommendations"></div><h3>Atenção</h3><div id="analysisWarnings"></div><p class="muted">Resultado produzido por IA a partir do perfil salvo e do anúncio informado. A pontuação é heurística, sujeita a erros, e não prevê decisões de recrutadores.</p><p id="analysisSaveStatus" class="muted" role="status"></p><button class="btn alt" onclick="go(2)">Analisar outra vaga</button> <button class="btn outline" onclick="go(1)">Revisar currículo</button></div></section>
 <section id="page4" class="hidden"><div class="eyebrow">Suas vagas em um só lugar</div><h1>Minhas oportunidades</h1><p>Salve vagas para depois, acompanhe candidaturas e consulte análises quando desejar.</p><div class="row"><button class="btn" type="button" onclick="go(2)">+ Adicionar oportunidade</button><button id="refreshOpportunitiesBtn" class="btn outline" type="button">Atualizar lista</button></div><p id="opportunitiesStatus" class="muted" role="status" aria-live="polite"></p><div id="opportunitiesList" style="margin-top:20px"></div></section>
-<section id="page5" class="hidden"><div class="eyebrow">Agente de oportunidades · Versão 1</div><h1>Buscar oportunidades</h1><p>Encontre vagas no LinkedIn com base nas preferências do seu perfil. A pesquisa abre no LinkedIn; a Trilha não acessa nem extrai automaticamente anúncios da plataforma.</p><div class="card soft"><h2>Pesquisa personalizada</h2><p id="agentProfile" class="muted" role="status">Entre na sua conta para consultar suas preferências.</p><label class="field" for="agentTerms">Cargo ou palavras-chave</label><input id="agentTerms" placeholder="Ex.: Content Designer"><label class="field" for="agentLocation">Localização</label><input id="agentLocation" placeholder="Ex.: São Paulo, Brasil"><p class="muted">A busca de empregos é filtrada para os últimos 5 dias. No feed, confira a data de cada publicação: o LinkedIn pode não respeitar esse filtro.</p><div class="row"><button class="btn" id="agentJobs" type="button">Pesquisar empregos no LinkedIn ↗</button><button class="btn alt" id="agentPosts" type="button">Pesquisar publicações no feed ↗</button></div><p id="agentStatus" role="status" class="muted"></p></div><div class="card" style="margin-top:18px"><h2>Encontrou uma vaga?</h2><p>Abra o anúncio no LinkedIn, confira se foi publicado nos últimos cinco dias e copie sua descrição para a Trilha. A análise e o salvamento só acontecem com sua confirmação.</p><button class="btn outline" type="button" onclick="go(2)">Inserir descrição e avaliar →</button></div></section>
+<section id="page5" class="hidden"><div class="eyebrow">Agente de oportunidades · Versão 1</div><h1>Buscar oportunidades</h1><p>Encontre vagas no LinkedIn com base nas preferências do seu perfil. A pesquisa abre no LinkedIn; a Trilha não acessa nem extrai automaticamente anúncios da plataforma.</p><div class="card soft"><h2>Pesquisa personalizada</h2><p id="agentProfile" class="muted" role="status">Entre na sua conta para consultar suas preferências.</p><label class="field" for="agentTerms">Cargos ou palavras-chave (separe por ponto e vírgula)</label><input id="agentTerms" placeholder="Ex.: Content Designer"><label class="field" for="agentLocation">Localização</label><input id="agentLocation" placeholder="Ex.: São Paulo, Brasil"><p class="muted">A busca de empregos é filtrada para os últimos 5 dias. No feed, confira a data de cada publicação: o LinkedIn pode não respeitar esse filtro.</p><div class="row"><button class="btn" id="agentJobs" type="button">Pesquisar empregos no LinkedIn ↗</button><button class="btn alt" id="agentPosts" type="button">Pesquisar publicações no feed ↗</button></div><p id="agentStatus" role="status" class="muted"></p></div><div class="card" style="margin-top:18px"><h2>Encontrou uma vaga?</h2><p>Abra o anúncio no LinkedIn, confira se foi publicado nos últimos cinco dias e copie sua descrição para a Trilha. A análise e o salvamento só acontecem com sua confirmação.</p><button class="btn outline" type="button" onclick="go(2)">Inserir descrição e avaliar →</button></div></section>
 </main><footer>Trilha · Perfil salvo no Supabase · Análise de vagas com IA</footer></div>
 <script>
 function go(n){if(n>1 && !window.trilhaAutenticado)n=1;document.querySelectorAll('main section').forEach((s,i)=>s.classList.toggle('hidden',i!==n));document.querySelectorAll('.step').forEach(s=>{const active=Number(s.dataset.page)===n;s.classList.toggle('active',active);s.setAttribute('aria-current',active?'step':'false')});window.scrollTo({top:0,behavior:'smooth'});if(n===4&&window.trilhaCarregarOportunidades)window.trilhaCarregarOportunidades();if(n===5&&window.prepararPesquisaAgente)window.prepararPesquisaAgente()}
@@ -87,24 +87,48 @@ async function carregarOportunidades(){
  });
 }
 // Pesquisa assistida: links oficiais do LinkedIn, sem coleta automatizada nem exposição do currículo.
+function cargosPesquisaAgente(){
+ const p=lerPreferencias();
+ return [...new Set((p.cargosDesejados||"").split(/[,;\n]/).map(x=>x.trim()).filter(Boolean))].slice(0,8);
+}
 function prepararPesquisaAgente(){
- const termos=$("agentTerms"),local=$("agentLocation");
- const preferencias=lerPreferencias();
- const cargos=(preferencias.cargosDesejados||"").split(/[,;\n]/).map(x=>x.trim()).filter(Boolean);
- if(!termos.value.trim()&&cargos.length)termos.value=cargos[0];
- if(!local.value.trim())local.value=preferencias.localizacao||"Brasil";
- $("agentProfile").textContent=usuario?"Pesquisa baseada nos cargos e na localização cadastrados. Revise os campos antes de abrir o LinkedIn.":"Entre na sua conta para usar as preferências salvas.";
+ const termos=$("agentTerms"),local=$("agentLocation"),p=lerPreferencias(),cargos=cargosPesquisaAgente();
+ if(!termos.value.trim()&&cargos.length)termos.value=cargos.join("; ");
+ if(!local.value.trim())local.value=p.localizacao||"São Paulo, Brasil";
+ const senior=opcoesSelecionadas("senioridade"),modal=opcoesSelecionadas("modalidade");
+ $("agentProfile").textContent=usuario
+  ?"Cargos: "+(cargos.join(", ")||"não informados")+" · Senioridade: "+(senior.join(", ")||"não informada")+" · Modalidade: "+(modal.join(", ")||"não informada")+". Revise os campos."
+  :"Entre na sua conta para usar as preferências salvas.";
 }
 window.prepararPesquisaAgente=prepararPesquisaAgente;
 function abrirPesquisaAgente(tipo){
  if(!usuario){$("agentStatus").textContent="Entre na sua conta antes de pesquisar com seu perfil.";go(1);return;}
- const termo=$("agentTerms").value.trim(),local=$("agentLocation").value.trim();
- if(!termo){$("agentStatus").textContent="Informe um cargo ou palavra-chave.";return;}
- const url=tipo==="jobs"
-  ?"https://www.linkedin.com/jobs/search/?"+new URLSearchParams({keywords:termo,location:local||"Brasil",f_TPR:"r432000",sortBy:"DD"})
-  :"https://www.linkedin.com/search/results/content/?"+new URLSearchParams({keywords:termo,sortBy:"date_posted"});
+ const termos=$("agentTerms").value.split(/[;\n]/).map(x=>x.trim()).filter(Boolean).slice(0,8);
+ const local=$("agentLocation").value.trim()||"São Paulo, Brasil";
+ if(!termos.length){$("agentStatus").textContent="Informe ao menos um cargo ou palavra-chave.";return;}
+ const p=lerPreferencias(),senior=opcoesSelecionadas("senioridade"),modal=opcoesSelecionadas("modalidade");
+ const keywords=termos.length>1?termos.map(t=>'"'+t.replace(/"/g,"")+'"').join(" OR "):termos[0];
+ let url;
+ if(tipo==="jobs"){
+  const params=new URLSearchParams({keywords,location:local,f_TPR:"r432000",sortBy:"DD"});
+  const levels=[senior.includes("Pleno")?"3":null,senior.includes("Sênior")?"4":null].filter(Boolean);
+  if(levels.length)params.set("f_E",levels.join(","));
+  if(modal.length&&modal.length<3){
+   const formas=[modal.includes("Presencial")?"1":null,modal.includes("Remoto")?"2":null,modal.includes("Híbrido")?"3":null].filter(Boolean);
+   if(formas.length)params.set("f_WT",formas.join(","));
+  }
+  url="https://www.linkedin.com/jobs/search/?"+params;
+ }else{
+  // O feed não disponibiliza filtro geográfico confiável por URL.
+  // Incluímos termos brasileiros e localização na consulta, sem prometer filtragem exata.
+  const localBusca=/brasil|são paulo|sao paulo/i.test(local)?local:local+" Brasil";
+  const consulta='('+keywords+') ("vaga" OR "contratando" OR "oportunidade") ("Brasil" OR "'+localBusca.replace(/"/g,"")+'") -Portugal -Lisboa';
+  url="https://www.linkedin.com/search/results/content/?"+new URLSearchParams({keywords:consulta,sortBy:"date_posted"});
+ }
  window.open(url,"_blank","noopener,noreferrer");
- $("agentStatus").textContent=tipo==="jobs"?"Pesquisa aberta no LinkedIn. Confira as datas e se as vagas continuam ativas.":"Feed aberto no LinkedIn. Verifique manualmente se cada publicação é dos últimos cinco dias.";
+ $("agentStatus").textContent=tipo==="jobs"
+  ?"Busca aberta com filtros de data, senioridade e modalidade quando cadastrados. O LinkedIn pode interpretar termos e filtros de forma diferente; confira os anúncios."
+  :"Feed aberto com termos voltados ao Brasil. O LinkedIn não garante filtro de país nem de cinco dias no feed; confira a data e a localização de cada publicação.";
 }
 $("agentJobs").addEventListener("click",()=>abrirPesquisaAgente("jobs"));
 $("agentPosts").addEventListener("click",()=>abrirPesquisaAgente("posts"));
