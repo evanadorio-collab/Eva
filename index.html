@@ -187,8 +187,7 @@ $("analyzeBtn").addEventListener("click",async()=>{
  const vaga=$("vaga").value.trim(),cargo=$("cargo").value.trim(),empresa=$("empresa").value.trim();
  if(vaga.length<80){$("analysisStatus").textContent="Cole uma descrição de vaga com pelo menos 80 caracteres.";return;}
  if(!usuario){$("analysisStatus").textContent="Entre na sua conta antes de analisar.";return;}
- if(!confirm("A descrição da vaga e os dados profissionais do seu perfil serão enviados ao Gemini (Google). No nível gratuito, esses dados podem ser utilizados pelo provedor para melhorar seus produtos. Deseja continuar?"))return;
- if(prompt("Para analisar esta vaga e salvar o resultado no histórico, digite confirmo:")!=="confirmo"){$("analysisStatus").textContent="Análise cancelada.";return;}
+ if(!confirm("A descrição da vaga e os dados profissionais do seu perfil serão enviados ao Gemini (Google). No nível gratuito, esses dados podem ser utilizados pelo provedor para melhorar seus produtos. O resultado da análise será salvo no seu histórico. Deseja continuar?"))return;
  $("analyzeBtn").disabled=true;$("analysisStatus").textContent="Comparando seu perfil com a vaga usando IA. Aguarde...";
  try{
   if(alteracaoPendente){clearTimeout(timerRascunho);await persistirRascunho();}
