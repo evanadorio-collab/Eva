@@ -134,7 +134,7 @@ async function carregarOportunidades(){
    });
    const excluir=document.createElement("button");excluir.className="btn outline";excluir.type="button";excluir.textContent="Excluir análise";
    excluir.addEventListener("click",async()=>{
-    if(!confirm("Excluir esta análise permanentemente? A oportunidade continuará salva."))return;
+    if(prompt("A análise será excluída permanentemente. A oportunidade continuará salva. Para excluir a análise, digite confirmo:")!=="confirmo")return;
     excluir.disabled=true;
     const {error:e}=await supabase.from("analises").delete().eq("id",ultima.id).eq("usuario_id",usuario.id);
     if(e){alert("Não foi possível excluir: "+e.message);excluir.disabled=false;return;}
