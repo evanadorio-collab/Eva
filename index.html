@@ -135,6 +135,28 @@ async function carregarOportunidades(){
     await carregarOportunidades();
    });
    actions.append(abrir,excluir);
+  }else{
+   const excluir=document.createElement("button");
+   excluir.className="btn outline";
+   excluir.type="button";
+   excluir.textContent="Excluir oportunidade";
+   excluir.addEventListener("click",async()=>{
+    const titulo=v.titulo || "Oportunidade sem título";
+    if(prompt('Para excluir permanentemente a oportunidade "'+titulo+'", digite confirmo:')!=="confirmo")return;
+    excluir.disabled=true;
+    aviso.textContent="Excluindo oportunidade...";
+    const {data:excluida,error}=await supabase.rpc("excluir_oportunidade_sem_analise",{p_vaga_id:v.id});
+    if(error){
+     aviso.textContent="Não foi possível excluir a oportunidade. Tente novamente.";
+     excluir.disabled=false;
+     return;
+    }
+    await carregarOportunidades();
+    $("opportunitiesStatus").textContent=excluida
+     ? "Oportunidade excluída."
+     : "A oportunidade já foi excluída ou tem uma análise salva.";
+   });
+   actions.append(excluir);
   }
   actions.append(analyze);box.append(titulo,info,avaliacoes,label,select,aviso,actions);list.append(box);
  });
