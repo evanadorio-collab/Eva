@@ -29,6 +29,19 @@ header .tag{font-size:13px;color:#596072}
 .experience{background:#fafaff;border:1px solid #e4e1f5;border-radius:13px;padding:16px;margin:12px 0}.subsection{margin:28px 0 12px;padding-top:20px;border-top:1px solid #e8eaf1}select{width:100%;padding:12px;border:1px solid #d9dce8;border-radius:10px;background:white;font:inherit}.choice-group{border:1px solid #d7e1ec;border-radius:10px;padding:12px;margin:10px 0}.choice-group legend{font-weight:600;padding:0 6px}.choice-group label{display:inline-flex;align-items:center;gap:6px;margin:7px 16px 7px 0;cursor:pointer}.choice-group input{width:auto;accent-color:#2563eb}</style></head><body>
 <header><div class="brand">trilha<span>.</span></div><div class="tag">Seu próximo passo na carreira pode estar aqui.</div><div class="accountActions"><button id="mobileMenuButton" class="btn outline" type="button" aria-controls="mobileMenuDrawer" aria-expanded="false" aria-haspopup="dialog"><span aria-hidden="true">☰</span> Menu</button><button id="logoutBtn" class="btn outline hidden" type="button">Sair</button></div></header>
 <div class="wrap"><nav id="primaryNavigation" class="steps" aria-label="Navegação principal"><button class="step active" data-page="0">Início</button><button class="step" data-page="1">Meu currículo</button><button class="step" data-page="2">Buscar e analisar vagas</button><button class="step" data-page="3">Resultado da análise</button><button class="step" data-page="4">Minhas oportunidades</button><button class="step" data-page="5">Aprendizado</button></nav><dialog id="mobileMenuDrawer" aria-label="Menu da Trilha"><button id="mobileMenuClose" class="btn outline" type="button" autofocus>Fechar menu</button></dialog>
+<dialog id="liberarComputador" aria-labelledby="liberarComputadorTitulo" style="width:min(30rem,calc(100% - 2rem));box-sizing:border-box;padding:1.5rem;border:1px solid #d8d9ed;border-radius:1rem;color:#19243c">
+<h2 id="liberarComputadorTitulo">Onde quer continuar?</h2>
+<form id="liberarComputadorForm">
+<div id="liberarComputadorCampos">
+<p>Para liberar o acesso no computador, digite o código exibido na aba da Trilha que você abriu lá.</p>
+<label for="codigoComputador">Código do computador</label>
+<input id="codigoComputador" name="codigoComputador" type="text" maxlength="11" autocapitalize="characters" autocomplete="off" spellcheck="false">
+<p><button class="btn" type="submit" id="autorizarComputador">Liberar acesso no computador</button></p>
+</div>
+<p id="statusComputador" role="status"></p>
+<button class="btn ghost" type="button" id="continuarCelular">Continuar neste celular</button>
+</form>
+</dialog>
 <main>
 <section id="page0"><div class="home-grid">
       <div class="intro">
@@ -451,6 +464,104 @@ $("profileEditor").addEventListener("input",e=>{if(e.target.closest("#pdf"))retu
 $("profileEditor").addEventListener("change",e=>{if(e.target.closest("#pdf"))return;agendarRascunho();});
 $("experienceList").addEventListener("click",e=>{if(e.target.closest("[data-remove]"))setTimeout(agendarRascunho,0);});
 
+const noCelular = matchMedia("(pointer: coarse) and (max-width: 900px)").matches ||
+  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+let pedidoNoComputador;
+let oferecerNoCelular = retornoDoLogin && noCelular;
+const algoritmoHandoff = { name: "RSA-OAEP", hash: "SHA-256" };
+const bytesEmHex = bytes => Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+async function hashHandoff(value) {
+  return bytesEmHex(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value))));
+}
+
+async function iniciarPedidoNoComputador(email) {
+  const keys = await crypto.subtle.generateKey({
+    ...algoritmoHandoff, modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]),
+  }, false, ["encrypt", "decrypt"]);
+  const id = crypto.randomUUID();
+  const secret = bytesEmHex(crypto.getRandomValues(new Uint8Array(32)));
+  const code = bytesEmHex(crypto.getRandomValues(new Uint8Array(5))).toUpperCase();
+  const { data, error } = await supabase.rpc("trilha_handoff_start", {
+    target_email: email, request_id: id, secret_digest: await hashHandoff(secret),
+    code_digest: await hashHandoff(code), public_key: await crypto.subtle.exportKey("jwk", keys.publicKey),
+  }).abortSignal(AbortSignal.timeout(4500));
+  if (error) throw error;
+  return { id, secret, code, key: keys.privateKey, expiresAt: Date.parse(data) };
+}
+
+function consultarPedido(pedido, cancelar = false) {
+  return supabase.rpc("trilha_handoff_claim", {
+    request_id: pedido.id, secret_proof: pedido.secret, cancel_request: cancelar,
+  }).abortSignal(AbortSignal.timeout(4500));
+}
+
+async function aguardarComputador(pedido) {
+  while (pedido === pedidoNoComputador && !usuario && Date.now() < pedido.expiresAt) {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    if (pedido !== pedidoNoComputador || usuario || Date.now() >= pedido.expiresAt) break;
+    try {
+      const { data: ciphertext } = await consultarPedido(pedido);
+      if (!ciphertext || pedido !== pedidoNoComputador || usuario) continue;
+      const bytes = Uint8Array.from(atob(ciphertext), char => char.charCodeAt(0));
+      const token = await crypto.subtle.decrypt("RSA-OAEP", pedido.key, bytes);
+      const { error } = await supabase.auth.verifyOtp({ type: "email", token_hash: new TextDecoder().decode(token) });
+      if (!error) return;
+      break;
+    } catch {
+      // Uma interrupção momentânea não impede o uso do link do e-mail.
+    }
+  }
+  if (!usuario && pedido === pedidoNoComputador) {
+    pedidoNoComputador = undefined;
+    $("homeAuthMessage").textContent = "A espera no computador terminou. Abra o link do e-mail ou solicite um novo.";
+  }
+}
+
+async function operacaoNoCelular(action, body = {}) {
+  const { data, error } = await supabase.functions.invoke("aprovar-acesso-computador", {
+    body: { action, ...body }, signal: AbortSignal.timeout(4500),
+  });
+  if (error) throw error;
+  return data;
+}
+
+const liberarComputador = $("liberarComputador");
+async function mostrarOpcaoNoCelular() {
+  if (!oferecerNoCelular) return;
+  oferecerNoCelular = false;
+  try {
+    const { available } = await operacaoNoCelular("available");
+    if (available && usuario) liberarComputador.showModal();
+  } catch {
+    // O acesso no celular foi confirmado pelo link.
+  }
+}
+
+$("continuarCelular").addEventListener("click", () => liberarComputador.close());
+$("liberarComputadorForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const codigo = $("codigoComputador").value.replace(/[\s–-]/g, "").toUpperCase();
+  const status = $("statusComputador");
+  const botao = $("autorizarComputador");
+  if (botao.disabled) return;
+  if (!/^[A-F0-9]{10}$/.test(codigo)) {
+    status.textContent = "Confira os 10 caracteres que aparecem na Trilha no computador.";
+    return;
+  }
+  botao.disabled = true;
+  try {
+    const { approved } = await operacaoNoCelular("approve", { code: codigo });
+    if (!approved) throw new Error();
+    status.textContent = "Acesso liberado. Você já pode voltar ao computador ou continuar neste celular.";
+    $("liberarComputadorCampos").hidden = true;
+    $("continuarCelular").textContent = "Fechar";
+  } catch {
+    status.textContent = "Não foi possível liberar o acesso. Confira o código e se a aba do computador continua aberta.";
+  } finally {
+    botao.disabled = false;
+  }
+});
+
 let continuarAposLogin=retornoDoLogin;
 let perfilSalvoPronto=false;
 function perfilTemDadosParaAnalise(perfil){
@@ -519,6 +630,11 @@ async function atualizarSessao(){
   $("logoutBtn").classList.toggle("hidden",!usuario);
   if(!usuario)$("savedPdfStatus").textContent="Entre na sua conta para verificar seus documentos.";
   if(usuario){
+    if(pedidoNoComputador){
+      const pedido=pedidoNoComputador;
+      pedidoNoComputador=undefined;
+      void consultarPedido(pedido,true).then(()=>{},()=>{});
+    }
     carregandoPerfil=true;
     $("authMessage").textContent="Acesso confirmado. Você pode revisar e salvar seu perfil.";
     const {data,error}=await supabase.from("perfis").select("nome,resumo,preferencias").eq("usuario_id",user.id).maybeSingle();
@@ -535,6 +651,7 @@ async function atualizarSessao(){
     if(continuarAposLogin){
      continuarAposLogin=false;
      go(perfilPronto?2:1);
+     void mostrarOpcaoNoCelular();
     }
     carregandoPerfil=false;
     try {const itens=await listarCompetencias(); $("authMessage").textContent="Acesso confirmado. "+itens.length+" competências disponíveis na base Trilha.";}
@@ -549,12 +666,30 @@ $("homeLoginForm").addEventListener("submit",async(evento)=>{
   const email=$("email").value.trim();
   botao.disabled=true;
   status.textContent="Enviando o link…";
+  const anterior=pedidoNoComputador;
+  pedidoNoComputador=undefined;
+  if(anterior) void consultarPedido(anterior,true).then(()=>{},()=>{});
+  let pedido;
+  if(!noCelular){
+    try { pedido=await iniciarPedidoNoComputador(email); }
+    catch { /* O link também pode ser aberto diretamente. */ }
+  }
   try {
     const {error}=await entrarComEmail(email);
     if(error)throw error;
     continuarAposLogin=true;
     status.textContent="Enviamos o link de acesso para "+email+". Se não encontrar a mensagem, confira o spam.";
+    if(pedido&&!usuario){
+      pedidoNoComputador=pedido;
+      const codigo=pedido.code.slice(0,5)+"–"+pedido.code.slice(5);
+      status.append(document.createElement("br"),"Vai abrir o link no celular? Mantenha esta aba aberta e use o código ");
+      const destaque=document.createElement("strong");
+      destaque.textContent=codigo;
+      status.append(destaque," para liberar o acesso aqui.");
+      void aguardarComputador(pedido);
+    }
   } catch(e) {
+    if(pedido) void consultarPedido(pedido,true).then(()=>{},()=>{});
     status.textContent="Não foi possível enviar o link: "+e.message;
   } finally {
     botao.disabled=false;
