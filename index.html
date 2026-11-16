@@ -13,6 +13,19 @@
 .experience{background:#fafaff;border:1px solid #e4e1f5;border-radius:13px;padding:16px;margin:12px 0}.subsection{margin:28px 0 12px;padding-top:20px;border-top:1px solid #e8eaf1}select{width:100%;padding:12px;border:1px solid #d9dce8;border-radius:10px;background:white;font:inherit}.choice-group{border:1px solid #d7e1ec;border-radius:10px;padding:12px;margin:10px 0}.choice-group legend{font-weight:600;padding:0 6px}.choice-group label{display:inline-flex;align-items:center;gap:6px;margin:7px 16px 7px 0;cursor:pointer}.choice-group input{width:auto;accent-color:#2563eb}</style></head><body>
 <header><div class="brand">trilha<span>.</span></div><div class="tag">Seu próximo passo na carreira pode estar aqui.</div><div class="accountActions"><button id="mobileMenuButton" class="btn outline" type="button" aria-controls="mobileMenuDrawer" aria-expanded="false" aria-haspopup="dialog"><span aria-hidden="true">☰</span> Menu</button><button id="headerLoginBtn" class="btn outline" type="button">Entrar</button><button id="logoutBtn" class="btn outline hidden" type="button">Sair</button></div></header>
 <div class="wrap"><nav id="primaryNavigation" class="steps" aria-label="Navegação principal"><button class="step active" data-page="0">Início</button><button class="step" data-page="1">Meu currículo</button><button class="step" data-page="2">Buscar e analisar vagas</button><button class="step" data-page="3">Resultado da análise</button><button class="step" data-page="4">Minhas oportunidades</button><button class="step" data-page="5">Aprendizado</button></nav><dialog id="mobileMenuDrawer" aria-label="Menu da Trilha"><button id="mobileMenuClose" class="btn outline" type="button" autofocus>Fechar menu</button></dialog>
+<dialog id="liberarComputador" aria-labelledby="liberarComputadorTitulo" style="width:min(30rem,calc(100% - 2rem));box-sizing:border-box;padding:1.5rem;border:1px solid #d8d9ed;border-radius:1rem;color:#19243c">
+<h2 id="liberarComputadorTitulo">Onde quer continuar?</h2>
+<form id="liberarComputadorForm">
+<div id="liberarComputadorCampos">
+<p>Para liberar o acesso no computador, digite o código exibido na aba da Trilha que você abriu lá.</p>
+<label for="codigoComputador">Código do computador</label>
+<input id="codigoComputador" name="codigoComputador" type="text" maxlength="11" autocapitalize="characters" autocomplete="off" spellcheck="false">
+<p><button class="btn" type="submit" id="autorizarComputador">Liberar acesso no computador</button></p>
+</div>
+<p id="statusComputador" role="status"></p>
+<button class="btn ghost" type="button" id="continuarCelular">Continuar neste celular</button>
+</form>
+</dialog>
 <main>
 <section id="page0"><div class="grid"><div><div class="eyebrow">Mais clareza para suas decisões de carreira</div><h1>Entenda como seu perfil se conecta às oportunidades.</h1><p class="lead">Analise a compatibilidade do seu currículo com as vagas de seu interesse, identifique pontos fortes e oportunidades de desenvolvimento e acompanhe suas candidaturas em um só lugar.</p><div class="row"><button id="startAnalysisBtn" class="btn" type="button">Entrar para analisar vagas</button><span class="muted" id="authStatus">Conecte-se para salvar seu perfil</span></div></div><div><div class="heroart">Seu próximo passo começa com uma boa análise.</div><div class="card soft" style="margin-top:15px"><strong>Como funciona</strong><p class="muted">1. Envie seu currículo e complete seu perfil<br>2. Pesquise ou cole os dados da vaga<br>3. Descubra sua compatibilidade<br>4. Avalie seus pontos fortes e lacunas<br>5. Adapte seu currículo conforme a vaga<br>6. Acompanhe suas candidaturas<br>7. Descubra o que aprender primeiro</p></div></div></div></section>
 <section id="page1" class="hidden"><div id="profileIntro" class="hidden"><div class="eyebrow">Acesso seguro</div><h1>Vamos começar?</h1><p>Informe seu e-mail para acessar o Trilha com segurança. Enviaremos um link para você continuar sua análise, sem senha.</p></div><div id="profileContent" class="hidden"><div class="eyebrow">Etapa 1 de 3</div><h1>Vamos conhecer sua trajetória.</h1><p>Envie seu currículo em PDF para armazená-lo com segurança. Se já enviou um PDF, use o botão “Preencher campos com IA” e revise as informações sugeridas.</p></div><div class="card soft" id="authCard" style="margin-bottom:20px"><h3 id="authCardTitle">Acesse sua conta</h3><p class="muted">Receba um link por e-mail para acessar sua conta. Seus dados são privados e só serão salvos depois da sua confirmação.</p><label class="field" for="email">E-mail</label><input id="email" type="email" autocomplete="email" placeholder="voce@exemplo.com"><div class="row" style="margin-top:12px"><button class="btn alt" id="loginBtn" type="button">Enviar link de acesso</button></div><p class="muted" id="authMessage" role="status" aria-live="polite"></p></div><div id="profileEditor" class="hidden"><div class="upload"><strong>Selecionar currículo em PDF</strong><p class="muted">Somente PDF · Até 10 MB · Armazenamento privado no Supabase</p><input type="file" id="pdf" accept="application/pdf"><p class="muted" id="filename">Nenhum novo arquivo selecionado</p><p class="muted" id="savedPdfStatus" role="status" aria-live="polite">Verificando currículo já enviado...</p><ul id="savedPdfList"></ul><button class="btn alt hidden" id="extractPdfBtn" type="button">✨ Preencher campos com IA</button><p class="muted" id="extractStatus" role="status" aria-live="polite"></p></div><div class="grid"><div><label class="field" for="nome">Nome profissional</label><input id="nome" placeholder="Preencha após conferir seu currículo"><label class="field" for="resumo">Resumo profissional</label><textarea id="resumo" placeholder="Resumo profissional (opcional nesta etapa)"></textarea></div><div><label class="field" for="competencias">Competências (separadas por vírgula)</label><textarea id="competencias" placeholder="Competências (opcional nesta etapa)"></textarea><div class="notice">Use “Preencher campos com IA” após enviar o PDF. Confira todos os dados antes de salvar: a IA pode cometer erros.</div></div></div><h2 class="subsection">Experiências profissionais</h2><p class="muted">Registre responsabilidades e resultados reais.</p><div id="experienceList"></div><button class="btn alt" id="addExperienceBtn" type="button">+ Adicionar experiência</button><h2 class="subsection">Formação e desenvolvimento</h2><div class="grid"><div><label class="field" for="formacao">Formação acadêmica</label><textarea id="formacao" placeholder="Curso, instituição e ano"></textarea></div><div><label class="field" for="cursos">Cursos e certificações</label><textarea id="cursos"></textarea></div></div><label class="field" for="idiomas">Idiomas e níveis</label><textarea id="idiomas"></textarea><h2 class="subsection">Preferências de recolocação</h2><div class="grid"><div><label class="field" for="cargosDesejados">Cargos desejados</label><textarea id="cargosDesejados" placeholder="Um por linha"></textarea><fieldset class="choice-group" id="senioridade"><legend>Senioridade <span class="muted">(marque quantas quiser)</span></legend><label><input type="checkbox" value="Júnior"> Júnior</label><label><input type="checkbox" value="Pleno"> Pleno</label><label><input type="checkbox" value="Sênior"> Sênior</label><label><input type="checkbox" value="Liderança"> Liderança</label></fieldset><fieldset class="choice-group" id="contratacao"><legend>Regime de contratação <span class="muted">(marque quantos quiser)</span></legend><label><input type="checkbox" value="CLT"> CLT</label><label><input type="checkbox" value="PJ"> PJ</label><label><input type="checkbox" value="Freelance"> Freelance</label></fieldset></div><div><label class="field" for="localizacao">Localização</label><input id="localizacao" placeholder="Cidades ou regiões"><fieldset class="choice-group" id="modalidade"><legend>Modalidade <span class="muted">(marque quantas quiser)</span></legend><label><input type="checkbox" value="Remoto"> Remoto</label><label><input type="checkbox" value="Híbrido"> Híbrido</label><label><input type="checkbox" value="Presencial"> Presencial</label></fieldset><label class="field" for="pretensao">Pretensão salarial (opcional)</label><input id="pretensao" placeholder="Ex.: R$ 10.000 CLT"></div></div><p class="muted">Os campos são opcionais. As alterações são salvas automaticamente como rascunho e não representam validação do perfil.</p><p class="muted" id="draftStatus" role="status" aria-live="polite">Seu perfil está pendente de revisão.</p><div class="row" style="margin-top:24px"><button class="btn outline" onclick="go(0)">Voltar</button><button class="btn" id="saveProfileBtn" type="button">Salvar e continuar →</button></div></div></section>
@@ -401,6 +414,75 @@ $("profileEditor").addEventListener("input",e=>{if(e.target.closest("#pdf"))retu
 $("profileEditor").addEventListener("change",e=>{if(e.target.closest("#pdf"))return;agendarRascunho();});
 $("experienceList").addEventListener("click",e=>{if(e.target.closest("[data-remove]"))setTimeout(agendarRascunho,0);});
 
+const noCelular = matchMedia("(pointer: coarse) and (max-width: 900px)").matches;
+let pedidoNoComputador;
+let retornoPendente = retornoDoLogin && noCelular;
+
+async function solicitarLiberacao(action, body = {}) {
+  const { data, error } = await supabase.functions.invoke("liberar-acesso", {
+    body: { action, ...body },
+    signal: AbortSignal.timeout(4500),
+  });
+  if (error) throw error;
+  return data;
+}
+
+async function aguardarComputador(pedido) {
+  while (pedidoNoComputador === pedido && !usuario && Date.now() < pedido.expiresAt) {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    if (pedidoNoComputador !== pedido || usuario || Date.now() >= pedido.expiresAt) break;
+    let tokenHash;
+    try {
+      ({ tokenHash } = await solicitarLiberacao("claim", { id: pedido.id, secret: pedido.secret }));
+    } catch {
+      continue;
+    }
+    if (!tokenHash || pedidoNoComputador !== pedido || usuario) continue;
+    const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "email" });
+    if (!error) return;
+    break;
+  }
+  if (!usuario && pedidoNoComputador === pedido) {
+    pedidoNoComputador = undefined;
+    $("authMessage").textContent = "A espera no computador terminou. Abra o link recebido ou solicite um novo.";
+  }
+}
+
+const liberarComputador = $("liberarComputador");
+async function oferecerLiberacao() {
+  if (!retornoPendente) return;
+  retornoPendente = false;
+  try {
+    const { available } = await solicitarLiberacao("available");
+    if (available && usuario) liberarComputador.showModal();
+  } catch {
+    // A sessão no celular já está disponível.
+  }
+}
+
+$("continuarCelular").addEventListener("click", () => liberarComputador.close());
+$("liberarComputadorForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const codigo = $("codigoComputador").value.replace(/[\s–-]/g, "");
+  const botao = $("autorizarComputador");
+  const status = $("statusComputador");
+  if (!/^[0-9a-f]{10}$/i.test(codigo)) {
+    status.textContent = "Confira os 10 caracteres que aparecem no seu computador.";
+    return;
+  }
+  botao.disabled = true;
+  try {
+    await solicitarLiberacao("approve", { code: codigo });
+    status.textContent = "Acesso liberado. Você já pode voltar ao computador ou continuar neste celular.";
+    $("liberarComputadorCampos").hidden = true;
+    $("continuarCelular").textContent = "Fechar";
+  } catch {
+    status.textContent = "Não foi possível liberar. Confira o código e se a aba do computador continua aberta.";
+  } finally {
+    botao.disabled = false;
+  }
+});
+
 let continuarAposLogin=retornoDoLogin;
 let perfilSalvoPronto=false;
 function perfilTemDadosParaAnalise(perfil){
@@ -474,6 +556,7 @@ async function atualizarSessao(){
   $("logoutBtn").classList.toggle("hidden",!usuario);
   if(!usuario)$("savedPdfStatus").textContent="Entre na sua conta para verificar seus documentos.";
   if(usuario){
+    pedidoNoComputador=undefined;
     carregandoPerfil=true;
     $("authMessage").textContent="Acesso confirmado. Você pode revisar e salvar seu perfil.";
     const {data,error}=await supabase.from("perfis").select("nome,resumo,preferencias").eq("usuario_id",user.id).maybeSingle();
@@ -490,6 +573,7 @@ async function atualizarSessao(){
     if(continuarAposLogin){
      continuarAposLogin=false;
      go(perfilPronto?2:1);
+     void oferecerLiberacao();
     }
     carregandoPerfil=false;
     try {const itens=await listarCompetencias(); $("authMessage").textContent="Acesso confirmado. "+itens.length+" competências disponíveis na base Trilha.";}
@@ -500,7 +584,22 @@ $("loginBtn").addEventListener("click",async()=>{
   const email=$("email").value.trim();
   if(!email){$("authMessage").textContent="Informe um e-mail válido.";return;}
   $("loginBtn").disabled=true;
-  try{const {error}=await entrarComEmail(email);if(error)throw error;continuarAposLogin=true;$("authMessage").textContent="Enviamos um link para seu e-mail. Abra o mais recente e continue na aba da Trilha que o link abrir. O link é de uso único.";}
+  pedidoNoComputador=undefined;
+  try {
+    const {error}=await entrarComEmail(email);
+    if(error)throw error;
+    continuarAposLogin=true;
+    $("authMessage").textContent="Enviamos um link para seu e-mail. Abra o mais recente. Confira a pasta de spam se não o encontrar.";
+    if (!noCelular && !usuario) {
+      let pedido;
+      try { pedido = await solicitarLiberacao("start", { email }); }
+      catch { return; }
+      if (usuario) return;
+      pedidoNoComputador = pedido;
+      $("authMessage").textContent = "Aguardando confirmação pelo e-mail. Se abrir o link no celular, mantenha esta aba aberta e use o código " + pedido.code.slice(0, 5) + "–" + pedido.code.slice(5) + " para liberar o acesso aqui. Você também pode continuar no celular. Se o e-mail não chegar, confira o spam.";
+      void aguardarComputador(pedido);
+    }
+  }
   catch(e){$("authMessage").textContent="Falha no acesso: "+e.message;}
   finally{$("loginBtn").disabled=false;}
 });
