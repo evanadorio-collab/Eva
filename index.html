@@ -79,7 +79,7 @@ header .tag{font-size:13px;color:#596072}
         </article>
       </div>
     </div></section>
-<section id="page1" class="hidden"><div id="profileContent" class="hidden"><div class="eyebrow">Etapa 1 de 3</div><h1>Vamos conhecer sua trajetória.</h1><p>Envie seu currículo em PDF para armazená-lo com segurança. Se já enviou um PDF, use o botão “Preencher campos com IA” e revise as informações sugeridas.</p></div><div id="profileEditor" class="hidden"><div class="upload"><strong>Selecionar currículo em PDF</strong><p class="muted">Somente PDF · Até 10 MB · Armazenamento privado no Supabase</p><input type="file" id="pdf" accept="application/pdf"><p class="muted" id="filename">Nenhum novo arquivo selecionado</p><p class="muted" id="savedPdfStatus" role="status" aria-live="polite">Verificando currículo já enviado...</p><ul id="savedPdfList"></ul><button class="btn alt hidden" id="extractPdfBtn" type="button">✨ Preencher campos com IA</button><p class="muted" id="extractStatus" role="status" aria-live="polite"></p></div><div class="grid"><div><label class="field" for="nome">Nome profissional</label><input id="nome" placeholder="Preencha após conferir seu currículo"><label class="field" for="resumo">Resumo profissional</label><textarea id="resumo" placeholder="Resumo profissional (opcional nesta etapa)"></textarea></div><div><label class="field" for="competencias">Competências (separadas por vírgula)</label><textarea id="competencias" placeholder="Competências (opcional nesta etapa)"></textarea><div class="notice">Use “Preencher campos com IA” após enviar o PDF. Confira todos os dados antes de salvar: a IA pode cometer erros.</div></div></div><h2 class="subsection">Experiências profissionais</h2><p class="muted">Registre responsabilidades e resultados reais.</p><div id="experienceList"></div><button class="btn alt" id="addExperienceBtn" type="button">+ Adicionar experiência</button><h2 class="subsection">Formação e desenvolvimento</h2><div class="grid"><div><label class="field" for="formacao">Formação acadêmica</label><textarea id="formacao" placeholder="Curso, instituição e ano"></textarea></div><div><label class="field" for="cursos">Cursos e certificações</label><textarea id="cursos"></textarea></div></div><label class="field" for="idiomas">Idiomas e níveis</label><textarea id="idiomas"></textarea><h2 class="subsection">Preferências de recolocação</h2><div class="grid"><div><label class="field" for="cargosDesejados">Cargos desejados</label><textarea id="cargosDesejados" placeholder="Um por linha"></textarea><fieldset class="choice-group" id="senioridade"><legend>Senioridade <span class="muted">(marque quantas quiser)</span></legend><label><input type="checkbox" value="Júnior"> Júnior</label><label><input type="checkbox" value="Pleno"> Pleno</label><label><input type="checkbox" value="Sênior"> Sênior</label><label><input type="checkbox" value="Liderança"> Liderança</label></fieldset><fieldset class="choice-group" id="contratacao"><legend>Regime de contratação <span class="muted">(marque quantos quiser)</span></legend><label><input type="checkbox" value="CLT"> CLT</label><label><input type="checkbox" value="PJ"> PJ</label><label><input type="checkbox" value="Freelance"> Freelance</label></fieldset></div><div><label class="field" for="localizacao">Localização</label><input id="localizacao" placeholder="Cidades ou regiões"><fieldset class="choice-group" id="modalidade"><legend>Modalidade <span class="muted">(marque quantas quiser)</span></legend><label><input type="checkbox" value="Remoto"> Remoto</label><label><input type="checkbox" value="Híbrido"> Híbrido</label><label><input type="checkbox" value="Presencial"> Presencial</label></fieldset><label class="field" for="pretensao">Pretensão salarial (opcional)</label><input id="pretensao" placeholder="Ex.: R$ 10.000 CLT"></div></div><p class="muted">Os campos são opcionais. As alterações são salvas automaticamente como rascunho e não representam validação do perfil.</p><p class="muted" id="draftStatus" role="status" aria-live="polite">Seu perfil está pendente de revisão.</p><div class="row" style="margin-top:24px"><button class="btn outline" onclick="go(0)">Voltar</button><button class="btn" id="saveProfileBtn" type="button">Salvar e continuar →</button></div><p class="muted" id="authMessage" role="status"></p></div></section>
+<section id="page1" class="hidden"><div id="profileContent" class="hidden"><div class="eyebrow">Etapa 1 de 3</div><h1>Vamos conhecer sua trajetória.</h1><p>Selecione um PDF e use “Preencher campos com IA” para importar os dados. Você também pode preencher o currículo manualmente.</p></div><div id="profileEditor" class="hidden"><div class="upload"><strong>Selecionar currículo em PDF</strong><p class="muted">Somente PDF · Até 10 MB · Armazenamento privado no Supabase</p><input type="file" id="pdf" accept="application/pdf"><p class="muted" id="filename">Nenhum novo arquivo selecionado</p><p class="muted" id="savedPdfStatus" role="status" aria-live="polite">Verificando currículo já enviado...</p><ul id="savedPdfList"></ul><button class="btn alt hidden" id="extractPdfBtn" type="button">✨ Preencher campos com IA</button><p class="muted" id="extractStatus" role="status" aria-live="polite"></p></div><div class="grid"><div><label class="field" for="nome">Nome profissional</label><input id="nome" placeholder="Preencha após conferir seu currículo"><label class="field" for="resumo">Resumo profissional</label><textarea id="resumo" placeholder="Resumo profissional (opcional nesta etapa)"></textarea></div><div><label class="field" for="competencias">Competências (separadas por vírgula)</label><textarea id="competencias" placeholder="Competências (opcional nesta etapa)"></textarea><div class="notice">Use “Preencher campos com IA” após enviar o PDF. Confira todos os dados antes de salvar: a IA pode cometer erros.</div></div></div><h2 class="subsection">Experiências profissionais</h2><p class="muted">Registre responsabilidades e resultados reais.</p><div id="experienceList"></div><button class="btn alt" id="addExperienceBtn" type="button">+ Adicionar experiência</button><h2 class="subsection">Formação e desenvolvimento</h2><div class="grid"><div><label class="field" for="formacao">Formação acadêmica</label><textarea id="formacao" placeholder="Curso, instituição e ano"></textarea></div><div><label class="field" for="cursos">Cursos e certificações</label><textarea id="cursos"></textarea></div></div><label class="field" for="idiomas">Idiomas e níveis</label><textarea id="idiomas"></textarea><h2 class="subsection">Preferências de recolocação</h2><div class="grid"><div><label class="field" for="cargosDesejados">Cargos desejados</label><textarea id="cargosDesejados" placeholder="Um por linha"></textarea><fieldset class="choice-group" id="senioridade"><legend>Senioridade <span class="muted">(marque quantas quiser)</span></legend><label><input type="checkbox" value="Júnior"> Júnior</label><label><input type="checkbox" value="Pleno"> Pleno</label><label><input type="checkbox" value="Sênior"> Sênior</label><label><input type="checkbox" value="Liderança"> Liderança</label></fieldset><fieldset class="choice-group" id="contratacao"><legend>Regime de contratação <span class="muted">(marque quantos quiser)</span></legend><label><input type="checkbox" value="CLT"> CLT</label><label><input type="checkbox" value="PJ"> PJ</label><label><input type="checkbox" value="Freelance"> Freelance</label></fieldset></div><div><label class="field" for="localizacao">Localização</label><input id="localizacao" placeholder="Cidades ou regiões"><fieldset class="choice-group" id="modalidade"><legend>Modalidade <span class="muted">(marque quantas quiser)</span></legend><label><input type="checkbox" value="Remoto"> Remoto</label><label><input type="checkbox" value="Híbrido"> Híbrido</label><label><input type="checkbox" value="Presencial"> Presencial</label></fieldset><label class="field" for="pretensao">Pretensão salarial (opcional)</label><input id="pretensao" placeholder="Ex.: R$ 10.000 CLT"></div></div><p class="muted">Os campos são opcionais. As alterações são salvas automaticamente como rascunho e não representam validação do perfil.</p><p class="muted" id="draftStatus" role="status" aria-live="polite">Seu perfil está pendente de revisão.</p><div class="row" style="margin-top:24px"><button class="btn outline" onclick="go(0)">Voltar</button><button class="btn" id="saveProfileBtn" type="button">Salvar e continuar →</button></div><p class="muted" id="authMessage" role="status"></p></div></section>
 <section id="page2" class="hidden"><div class="eyebrow">Etapa 2 de 3</div><h1>Buscar e analisar oportunidades</h1><p>Pesquise vagas no LinkedIn e adicione a descrição da oportunidade nos campos abaixo.</p><div class="card soft" style="margin-bottom:22px"><button class="btn" id="linkedinJobsBtn" type="button">Pesquisar vagas no LinkedIn ↗</button><p id="linkedinSearchStatus" class="muted" role="status" aria-live="polite">A pesquisa abre o LinkedIn em outra aba. Confira a data da publicação e os requisitos da vaga.</p></div><h2>Descrição da oportunidade</h2><div class="card soft" id="vagaPrintsCard"><label class="field" for="vagaPrints">Prints do anúncio da vaga</label><p class="muted" id="vagaPrintsHelp">Se estiver difícil copiar a descrição, envie até 5 imagens do mesmo anúncio, na ordem em que aparecem. Envie seu currículo na aba Meu currículo. Aceita PNG, JPG e WebP, até 2 MB por imagem e 6 MB no total.</p><input id="vagaPrints" type="file" accept="image/png,image/jpeg,image/webp" multiple aria-describedby="vagaPrintsHelp"><button class="btn outline" id="extrairVagaPrintsBtn" type="button" disabled>Extrair texto dos prints</button> <button class="btn outline" id="limparVagaPrintsBtn" type="button" disabled>Remover prints selecionados</button><p class="muted" id="vagaPrintsStatus" role="status"></p></div><p>Confira se a descrição da vaga está completa antes de continuar.</p><label class="field" for="cargo">Título da vaga</label><input id="cargo" placeholder="Ex.: Analista de Comunicação Interna"><label class="field" for="empresa">Empresa (opcional)</label><input id="empresa" placeholder="Nome da empresa"><label class="field" for="vaga">Descrição da vaga</label><textarea id="vaga" style="min-height:230px" placeholder="Cole aqui a descrição real da vaga, incluindo requisitos obrigatórios e desejáveis."></textarea><p class="muted">A avaliação usa IA e pode cometer erros. Confira os requisitos no anúncio original.</p><p id="analysisStatus" class="muted" role="status" aria-live="polite"></p><div class="row" style="margin-top:24px"><button class="btn outline" onclick="go(1)">Voltar</button><button id="saveOpportunityBtn" class="btn alt" type="button">Salvar sem analisar</button><button id="analyzeBtn" class="btn" type="button">Analisar compatibilidade com IA →</button><button class="btn outline" type="button" onclick="go(4)">Minhas oportunidades</button></div></section>
 <section id="page3" class="hidden"><div class="eyebrow">Etapa 3 de 3 · Análise por IA</div><h1>Uma visão mais clara da oportunidade.</h1><p id="jobtitle"></p><div class="grid"><div class="card soft"><span class="pill">Estimativa de aderência por IA · não é chance de contratação</span><p class="muted">Compatibilidade estimada</p><div class="score"><span id="scoreValue">—</span><small>%</small></div><p id="scoreLevel" style="font-weight:700;font-size:1.1rem;margin-top:4px" aria-live="polite"></p><div class="bar"><div id="scoreBar" style="width:0%"></div></div><h3>Justificativa</h3><p id="analysisReason"></p><h3>Critérios utilizados</h3><p id="analysisCriteria" class="muted"></p></div><div class="card"><h3>Pontos de aderência e evidências</h3><div id="analysisStrengths"></div><h3 style="margin-top:22px">Lacunas e pontos a verificar</h3><div id="analysisGaps"></div></div></div><div class="card" style="margin-top:20px"><h3>Recomendações</h3><div id="analysisRecommendations"></div><h3>Atenção</h3><div id="analysisWarnings"></div><p class="muted">Resultado produzido por IA a partir do perfil salvo e do anúncio informado. A pontuação é heurística, sujeita a erros, e não prevê decisões de recrutadores.</p><p id="analysisSaveStatus" class="muted" role="status"></p><button id="adaptResumeBtn" class="btn" type="button">Adaptar currículo para esta vaga</button><p id="adaptResumeStatus" class="muted" role="status"></p><div id="adaptResumePanel" class="hidden"><label class="field" for="adaptResumeText">Currículo adaptado</label><p class="muted">Revise os dados antes de usar o currículo.</p><textarea id="adaptResumeText" rows="16" style="width:100%"></textarea><button id="printAdaptedResumeBtn" class="btn outline" type="button">Baixar em PDF</button></div><button class="btn alt" onclick="go(2)">Analisar outra vaga</button> <button class="btn outline" onclick="go(1)">Revisar currículo cadastrado</button></div></section>
 <section id="page4" class="hidden"><div class="eyebrow">Suas vagas em um só lugar</div><h1>Minhas oportunidades</h1><p>Salve vagas para depois, acompanhe candidaturas e consulte análises quando desejar.</p><div class="row"><button class="btn" type="button" onclick="go(2)">+ Adicionar oportunidade</button><button id="refreshOpportunitiesBtn" class="btn outline" type="button">Atualizar lista</button></div><p id="opportunitiesStatus" class="muted" role="status" aria-live="polite"></p><div id="opportunitiesList" style="margin-top:20px"></div></section>
@@ -618,7 +618,7 @@ async function carregarCurriculos(){
  if(usuario?.id!==pessoaId)return;
  if(error)throw error;
  curriculoSalvoId=data?.[0]?.id||null;
- $("extractPdfBtn").classList.toggle("hidden",!curriculoSalvoId);
+ atualizarBotaoExtracao();
  $("savedPdfStatus").textContent=curriculoSalvoId?"Seus currículos em PDF":"Nenhum currículo em PDF cadastrado.";
  const lista=$("savedPdfList");
  lista.replaceChildren();
@@ -735,12 +735,53 @@ $("homeLoginForm").addEventListener("submit",async(evento)=>{
   }
 });
 $("logoutBtn").addEventListener("click",async()=>{const {error}=await supabase.auth.signOut();if(error){alert("Não foi possível sair da conta. Tente novamente.");return;}usuario=null;location.reload();});
+function atualizarBotaoExtracao(){
+ const pdf=$("pdf").files[0];
+ const valido=pdf?.type==="application/pdf"&&pdf.size<=10*1024*1024;
+ $("extractPdfBtn").classList.toggle("hidden",pdf?!valido:!curriculoSalvoId);
+}
+$("pdf").addEventListener("change",()=>{
+ atualizarBotaoExtracao();
+ $("extractStatus").textContent="";
+ if($("pdf").files[0]?.size>10*1024*1024)$("extractStatus").textContent="Selecione um PDF de até 10 MB.";
+});
+async function armazenarPdf(pdf,perfilId,pessoaId){
+ if(pdf.type!=="application/pdf"||pdf.size>10*1024*1024)throw new Error("Selecione um PDF de até 10 MB.");
+ const caminho=pessoaId+"/"+crypto.randomUUID()+".pdf";
+ const {error}=await supabase.storage.from("curriculos").upload(caminho,pdf,{contentType:"application/pdf",upsert:false});
+ if(error)throw error;
+ const {data,error:registroErro}=await supabase.from("curriculos").insert({
+  usuario_id:pessoaId,perfil_id:perfilId,caminho_storage:caminho,tipo:"original",
+ }).select("id").single();
+ if(registroErro)throw registroErro;
+ return data.id;
+}
+function limparSelecaoPdf(){
+ $("pdf").value="";
+ $("filename").textContent="Nenhum novo arquivo selecionado";
+ atualizarBotaoExtracao();
+}
 $("extractPdfBtn").addEventListener("click",async()=>{
- if(!usuario||!curriculoSalvoId)return;
+ const arquivo=$("pdf").files[0];
+ if(!usuario||(!arquivo&&!curriculoSalvoId)||$("saveProfileBtn").disabled||$("extractPdfBtn").disabled)return;
  if(!confirm("O currículo será processado pelo Gemini (Google). No nível gratuito, os dados enviados podem ser usados pelo provedor para melhorar seus produtos. Deseja continuar com este PDF?"))return;
- $("extractPdfBtn").disabled=true;$("extractStatus").textContent="Lendo seu PDF com IA. Aguarde...";
+ const pessoaId=usuario.id;
+ $("extractPdfBtn").disabled=true;
+ $("saveProfileBtn").disabled=true;
+ $("pdf").disabled=true;
+ $("extractStatus").textContent="Lendo seu PDF com IA. Aguarde...";
  try{
-   const {data,error}=await supabase.functions.invoke("extrair-curriculo",{body:{curriculo_id:curriculoSalvoId}});
+   let documentoId=curriculoSalvoId;
+   if(arquivo){
+    const perfil=await salvarPerfil({nome:$("nome").value.trim(),resumo:$("resumo").value.trim(),preferencias:lerPreferencias(),validado:false});
+    documentoId=await armazenarPdf(arquivo,perfil.id,pessoaId);
+    if(usuario?.id!==pessoaId)return;
+    curriculoSalvoId=documentoId;
+    limparSelecaoPdf();
+    try{await carregarCurriculos();}catch{$("savedPdfStatus").textContent="PDF salvo. Não foi possível atualizar a lista.";}
+   }
+   const {data,error}=await supabase.functions.invoke("extrair-curriculo",{body:{curriculo_id:documentoId}});
+   if(usuario?.id!==pessoaId)return;
    if(error){let detalhe=error.message;try{const resposta=await error.context?.json();detalhe=resposta?.error||detalhe;}catch{}throw new Error(detalhe);}
    if(data?.error)throw new Error(data.error);
    const p=data?.perfil;if(!p)throw new Error("Nenhum perfil foi extraído.");
@@ -750,7 +791,7 @@ $("extractPdfBtn").addEventListener("click",async()=>{
    $("extractStatus").textContent="✓ Dados extraídos. Revise e corrija os campos; o rascunho será salvo automaticamente, sem validação.";
    await persistirRascunho();
  }catch(e){$("extractStatus").textContent="Falha na extração: "+(e.message||"Tente novamente.");}
- finally{$("extractPdfBtn").disabled=false;}
+ finally{$("extractPdfBtn").disabled=false;$("saveProfileBtn").disabled=false;$("pdf").disabled=false;}
 });
 $("saveProfileBtn").addEventListener("click",async()=>{
   if(!usuario){$("authMessage").textContent="Entre por e-mail antes de salvar seu perfil.";return;}
@@ -763,19 +804,11 @@ $("saveProfileBtn").addEventListener("click",async()=>{
     const temDados=Boolean(nome||resumo||$("competencias").value.trim()||extraIds.filter(id=>!multiIds.includes(id)).some(id=>$(id).value.trim())||multiIds.some(id=>opcoesSelecionadas(id).length)||lerExperiencias().length);
     if(!pdf&&!temDados&&!(existentes||[]).length)throw new Error("Selecione um PDF ou preencha alguma informação para continuar.");
     const perfil=await salvarPerfil({nome,resumo,preferencias:lerPreferencias(),validado:false});
-    if(pdf){
-      if(pdf.type!=="application/pdf"||pdf.size>10*1024*1024)throw new Error("Selecione PDF de até 10 MB.");
-      const caminho=usuario.id+"/"+crypto.randomUUID()+".pdf";
-      const {error}=await supabase.storage.from("curriculos").upload(caminho,pdf,{contentType:"application/pdf",upsert:false});
-      if(error)throw error;
-      const {error:ce}=await supabase.from("curriculos").insert({usuario_id:usuario.id,perfil_id:perfil.id,caminho_storage:caminho,tipo:"original"});
-      if(ce)throw ce;
-    }
+    if(pdf)curriculoSalvoId=await armazenarPdf(pdf,perfil.id,usuario.id);
     $("authMessage").textContent="Currículo e informações salvos. A revisão dos dados será feita antes de sua validação.";
     perfilSalvoPronto=perfilTemDadosParaAnalise(perfil);
     if(pdf){
-     $("pdf").value="";
-     $("filename").textContent="Nenhum novo arquivo selecionado";
+     limparSelecaoPdf();
      await carregarCurriculos();
     }
     clearTimeout(timerRascunho);alteracaoPendente=false;atualizarBotaoInicial(podeAbrirBusca());go(podeAbrirBusca()?2:1);
