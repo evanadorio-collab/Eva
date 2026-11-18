@@ -7,7 +7,7 @@ export async function listarCompetencias(){
   return data;
 }
 export async function entrarComEmail(email){
-  return supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
+  return supabase.auth.signInWithOtp({email,options:{emailRedirectTo:"https://trilhacarreira.vercel.app/"}});
 }
 export async function salvarPerfil({nome,resumo,preferencias={},validado=false}){
   const {data:{user},error:authError}=await supabase.auth.getUser();
