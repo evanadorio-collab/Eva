@@ -64,6 +64,16 @@ footer{color:#62586f;font-size:12px;line-height:1.7}
 footer strong{color:#392456}
 footer .footer-line{display:block}
 @media(max-width:700px){.brand{font-size:27px;gap:8px}.brand-logo{width:32px;height:38px}footer{margin:25px 0;padding-inline:6px}}
+
+/* Navegação acompanha a sessão; cores das áreas internas. */
+body:not([data-authenticated="true"]) #primaryNavigation,
+body:not([data-authenticated="true"]) #mobileMenuButton{display:none!important}
+main h2,main h3,.choice-group legend{color:var(--trilha-purple)}
+.experience{background:#f7f4fc;border-color:#e1d9ee}
+.upload{background:#faf8fe;border-color:#b8a0d6}
+.subsection,.choice-group,.item{border-color:#e1d9ee}
+input,textarea,select{color:#30263e;border-color:#d4cbe4}
+#recurringGapsTitle{color:var(--trilha-purple)}
 </style></head><body>
 <header><div class="brand" aria-label="Trilha"><svg class="brand-logo" viewBox="0 0 64 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><rect x="29" y="2" width="7" height="76" rx="3.5" fill="#fff"/><path d="M13 16 Q10 17 10 21 V30 Q10 34 14 33 L51 27 L62 18 L51 11 Z" fill="#c0f450"/><path d="M10 38 L1 47 L11 54 L50 48 Q54 47 54 43 V34 Q54 30 50 31 Z" fill="#9527f5"/><path d="M14 58 Q10 59 10 63 V72 Q10 76 14 75 L51 69 L62 60 L51 53 Z" fill="#00adb5"/></svg><span class="brand-word">Trilha</span></div><div class="tag">Seu próximo passo na carreira pode estar aqui.</div><div class="accountActions"><button id="mobileMenuButton" class="btn outline" type="button" aria-controls="mobileMenuDrawer" aria-expanded="false" aria-haspopup="dialog"><span aria-hidden="true">☰</span> Menu</button><button id="logoutBtn" class="btn outline hidden" type="button">Sair</button></div></header>
 <div class="wrap"><nav id="primaryNavigation" class="steps" aria-label="Navegação principal"><button class="step active" data-page="0">Início</button><button class="step" data-page="1">Meu currículo</button><button class="step" data-page="2">Analisar vagas</button><button class="step" data-page="3">Resultado da análise</button><button class="step" data-page="4">Minhas oportunidades</button><button class="step" data-page="5">Lacunas recorrentes</button></nav><dialog id="mobileMenuDrawer" aria-label="Menu da Trilha"><button id="mobileMenuClose" class="btn outline" type="button" autofocus>Fechar menu</button></dialog>
@@ -120,7 +130,7 @@ footer .footer-line{display:block}
 <section id="page4" class="hidden"><div class="eyebrow">Suas vagas em um só lugar</div><h1>Minhas oportunidades</h1><p>Salve vagas para depois, acompanhe candidaturas e consulte análises quando desejar.</p><div class="row"><button class="btn" type="button" onclick="go(2)">+ Adicionar oportunidade</button><button id="refreshOpportunitiesBtn" class="btn outline" type="button">Atualizar lista</button></div><p id="opportunitiesStatus" class="muted" role="status" aria-live="polite"></p><div id="opportunitiesList" style="margin-top:20px"></div></section>
 
 <section id="page5" class="hidden"><h1>Prioridades de aprendizado</h1><div class="card soft" aria-labelledby="recurringGapsTitle" style="border-color:#c9c1f5;border-left:4px solid #6747c7"><h2 id="recurringGapsTitle">Lacunas recorrentes</h2><p><strong>Decida o que estudar primeiro.</strong> A Trilha compara suas análises salvas e mostra quais requisitos apareceram como lacuna ou ponto a verificar em mais de uma vaga. Quanto mais vezes um requisito aparecer, mais atenção ele merece na hora de planejar seus estudos.</p><p class="muted">Este painel considera até 30 das suas análises mais recentes.</p><div id="recurringGaps" aria-live="polite"></div></div></section>
-</main><footer><span class="footer-line">Idealizado e desenvolvido por <strong>Evana Carvalho</strong> ·</span><span class="footer-line">Projeto final da formação em IA Aplicada na {reprograma}.</span></footer></div>
+</main><footer><span class="footer-line">Idealizado e desenvolvido por <strong>Evana Carvalho</strong>.</span><span class="footer-line">Projeto final da formação em IA Aplicada na {reprograma}.</span></footer></div>
 <script>
 const retornoDoLogin=new URLSearchParams(location.hash.slice(1)).has("access_token")||new URLSearchParams(location.search).has("code");
 function go(n){if(n>0 && !window.trilhaAutenticado)n=0;document.querySelectorAll('main > section').forEach((s,i)=>s.classList.toggle('hidden',i!==n));document.querySelectorAll('.step').forEach(s=>{const active=Number(s.dataset.page)===n;s.classList.toggle('active',active);s.setAttribute('aria-current',active?'step':'false')});window.scrollTo({top:0,behavior:'smooth'});if(n===4)window.trilhaCarregarOportunidades?.();if(n===5)window.trilhaCarregarLacunas?.()}
@@ -703,6 +713,8 @@ async function atualizarSessao(){
   const {data:{user},error:authError}=await supabase.auth.getUser();
   if(!authError&&user&&usuario?.id===user.id)return;
   usuario=authError?null:user;window.trilhaAutenticado=!!usuario;
+  document.body.dataset.authenticated=String(!!usuario);
+  if(!usuario){painelMenu.close();abrirMenu.setAttribute("aria-expanded","false");}
   $("homeLoginForm").classList.toggle("hidden",!!usuario);
   $("homeAccount").classList.toggle("hidden",!usuario);
   $("profileContent").classList.toggle("hidden",!usuario);
