@@ -466,37 +466,77 @@ $("adaptResumeBtn").addEventListener("click",async()=>{
   if(vaga===vagaParaAdaptar&&pessoaId===usuario?.id)botao.disabled=false;
  }
 });
-async function criarPdf(curriculo,{PDFDocument,StandardFonts}){
+async function criarPdf(curriculo,{PDFDocument,StandardFonts,rgb,PDFString}){
  const pdf=await PDFDocument.create();
- const fonte=await pdf.embedFont(StandardFonts.Helvetica);
- const tamanho=11,entrelinhas=16,margem=48;
- const dimensoes=[595.28,841.89];
- const largura=dimensoes[0]-2*margem;
- const medir=texto=>fonte.widthOfTextAtSize(texto,tamanho);
- let pagina=pdf.addPage(dimensoes),y=dimensoes[1]-margem-tamanho;
- function escrever(linha){
-  if(!linha){if(y>=margem)y-=entrelinhas;return;}
-  if(y<margem){
-   pagina=pdf.addPage(dimensoes);
-   y=dimensoes[1]-margem-tamanho;
+ const regular=await pdf.embedFont(StandardFonts.Helvetica);
+ const negrito=await pdf.embedFont(StandardFonts.HelveticaBold);
+ const dimensoes=[595.28,841.89],margem=48,largura=dimensoes[0]-2*margem;
+ const tinta=rgb(.13,.14,.18),secundaria=rgb(.34,.36,.40),destaque=rgb(.22,.16,.35),linhaClara=rgb(.84,.85,.88);
+ const linhas=curriculo.normalize('NFC').split(/\r?\n/);
+ const titulos=new Set(['RESUMO','RESUMO PROFISSIONAL','OBJETIVO','OBJETIVO PROFISSIONAL','EXPERIENCIA PROFISSIONAL','EXPERIENCIAS PROFISSIONAIS','EXPERIENCIAS','FORMACAO','FORMACAO ACADEMICA','CURSOS','CURSOS E CERTIFICACOES','CERTIFICACOES','IDIOMAS','COMPETENCIAS','HABILIDADES','CONTATO','CONTATOS','INFORMACOES ADICIONAIS','PROJETOS','VOLUNTARIADO']);
+ const limpar=t=>t.trim().replace(/^#{1,6}\s+/,'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/__([^_]+)__/g,'$1');
+ const chave=t=>limpar(t).replace(/[:\s]+$/,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+ let pagina,y,primeiro=true,emExperiencias=false,aposTitulo=false,aposEspaco=false;
+ function novaPagina(){pagina=pdf.addPage(dimensoes);y=dimensoes[1]-margem;}
+ novaPagina();
+ function garantir(altura){if(y-altura<56)novaPagina();}
+ function quebrar(texto,fonte,tamanho,limite){
+  const resultado=[];let atual='';
+  for(const palavra of texto.split(/\s+/).filter(Boolean)){
+   const tentativa=atual?atual+' '+palavra:palavra;
+   if(fonte.widthOfTextAtSize(tentativa,tamanho)<=limite){atual=tentativa;continue;}
+   if(atual)resultado.push(atual);atual='';
+   for(const char of palavra){if(atual&&fonte.widthOfTextAtSize(atual+char,tamanho)>limite){resultado.push(atual);atual='';}atual+=char;}
   }
-  pagina.drawText(linha,{x:margem,y,size:tamanho,font:fonte});
-  y-=entrelinhas;
+  if(atual)resultado.push(atual);return resultado;
  }
- for(const paragrafo of curriculo.normalize("NFC").split(/\r?\n/)){
-  let linha="";
-  for(const palavra of paragrafo.trim().split(/\s+/).filter(Boolean)){
-   const candidata=linha?linha+" "+palavra:palavra;
-   if(medir(candidata)<=largura){linha=candidata;continue;}
-   if(linha)escrever(linha);
-   linha="";
-   for(const caractere of palavra){
-    if(medir(linha+caractere)>largura){escrever(linha);linha="";}
-    linha+=caractere;
-   }
+ function links(texto,x,base,fonte,tamanho){
+  const re=/(?:https?:\/\/|www\.)[^\s<>]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+  for(const m of texto.matchAll(re)){
+   const visivel=m[0].replace(/[),.;]+$/,'');const uri=visivel.includes('@')&&!/^https?:/i.test(visivel)?'mailto:'+visivel:/^www\./i.test(visivel)?'https://'+visivel:visivel;
+   if(!/^(https?:\/\/|mailto:)/i.test(uri))continue;
+   const inicio=x+fonte.widthOfTextAtSize(texto.slice(0,m.index),tamanho),fim=inicio+fonte.widthOfTextAtSize(visivel,tamanho);
+   const ref=pdf.context.register(pdf.context.obj({Type:'Annot',Subtype:'Link',Rect:[inicio,base-2,fim,base+tamanho],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:PDFString.of(uri)}}));
+   pagina.node.addAnnot(ref);
   }
-  escrever(linha);
  }
+ for(let indice=0;indice<linhas.length;indice++){
+  const original=linhas[indice];let texto=limpar(original);
+  if(!texto){if(!aposEspaco&&!aposTitulo)y-=6;aposEspaco=true;continue;}
+  const secao=titulos.has(chave(texto));
+  if(primeiro&&!secao){
+   const partes=quebrar(texto,negrito,23,largura);
+   garantir(partes.length*28+26);
+   for(const parte of partes){pagina.drawText(parte,{x:margem,y:y-23,size:23,font:negrito,color:destaque});y-=28;}
+   y-=4;pagina.drawLine({start:{x:margem,y},end:{x:margem+largura,y},thickness:1.5,color:destaque});y-=17;
+   pdf.setTitle('Currículo - '+texto);pdf.setAuthor(texto);primeiro=false;aposEspaco=false;continue;
+  }
+  primeiro=false;
+  if(secao){
+   garantir(67);y-=9;
+   pagina.drawText(texto,{x:margem,y:y-11.5,size:11.5,font:negrito,color:destaque});y-=19;
+   pagina.drawLine({start:{x:margem,y},end:{x:margem+largura,y},thickness:.55,color:linhaClara});y-=13;
+   emExperiencias=/EXPERIENCIA/.test(chave(texto));aposTitulo=true;aposEspaco=false;continue;
+  }
+  const topico=/^[-*•▪]\s+/.test(texto);if(topico)texto=texto.replace(/^[-*•▪]\s+/,'');
+  const subtitulo=emExperiencias&&!topico&&(aposTitulo||aposEspaco)&&texto.length<150;
+  const fonte=subtitulo?negrito:regular,tamanho=10.5,passo=15.2,recuo=topico?12:0;
+  const partes=quebrar(texto,fonte,tamanho,largura-recuo);
+  garantir(Math.min(partes.length,subtitulo?3:2)*passo+(subtitulo?15:0));
+  for(let j=0;j<partes.length;j++){
+   garantir(passo);const base=y-tamanho;
+   if(topico&&j===0)pagina.drawText('•',{x:margem+1,y:base,size:10,font:regular,color:destaque});
+   pagina.drawText(partes[j],{x:margem+recuo,y:base,size:tamanho,font:fonte,color:tinta});
+   links(partes[j],margem+recuo,base,fonte,tamanho);y-=passo;
+  }
+  y-=subtitulo?3:2;aposTitulo=false;aposEspaco=false;
+ }
+ const paginas=pdf.getPages();
+ paginas.forEach((p,i)=>{
+  p.drawLine({start:{x:margem,y:39},end:{x:margem+largura,y:39},thickness:.4,color:linhaClara});
+  const numero=(i+1)+' / '+paginas.length;
+  p.drawText(numero,{x:dimensoes[0]-margem-regular.widthOfTextAtSize(numero,8),y:26,size:8,font:regular,color:secundaria});
+ });
  return pdf.save();
 }
 
