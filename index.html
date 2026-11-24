@@ -130,7 +130,7 @@ input,textarea,select{color:#30263e;border-color:#d4cbe4}
 <section id="page3" class="hidden"><div class="eyebrow">Etapa 3 de 3 · Análise por IA</div><h1>Uma visão mais clara da oportunidade.</h1><p id="jobtitle"></p><div class="grid"><div class="card soft"><span class="pill">Estimativa de aderência por IA · não é chance de contratação</span><p class="muted">Compatibilidade estimada</p><div class="score"><span id="scoreValue">—</span><small>%</small></div><p id="scoreLevel" style="font-weight:700;font-size:1.1rem;margin-top:4px" aria-live="polite"></p><div class="bar"><div id="scoreBar" style="width:0%"></div></div><h3>Justificativa</h3><p id="analysisReason"></p><h3>Critérios utilizados</h3><p id="analysisCriteria" class="muted"></p></div><div class="card"><h3>Pontos de aderência e evidências</h3><div id="analysisStrengths"></div><h3 style="margin-top:22px">Lacunas e pontos a verificar</h3><div id="analysisGaps"></div></div></div><div class="card" style="margin-top:20px"><h3>Recomendações</h3><div id="analysisRecommendations"></div><h3>Atenção</h3><div id="analysisWarnings"></div><p class="muted">Resultado produzido por IA a partir do perfil salvo e do anúncio informado. A pontuação é heurística, sujeita a erros, e não prevê decisões de recrutadores.</p><p id="analysisSaveStatus" class="muted" role="status"></p><button id="adaptResumeBtn" class="btn" type="button">Adaptar currículo para esta vaga</button><p id="adaptResumeStatus" class="muted" role="status"></p><div id="adaptResumePanel" class="hidden"><label class="field" for="adaptResumeText">Currículo adaptado</label><p class="muted">Revise os dados antes de usar o currículo.</p><textarea id="adaptResumeText" rows="16" style="width:100%"></textarea><button id="printAdaptedResumeBtn" class="btn outline" type="button">Baixar em PDF</button></div><button id="newAnalysisBtn" class="btn alt" type="button">Analisar outra vaga</button> <button class="btn outline" onclick="go(1)">Revisar currículo cadastrado</button></div></section>
 <section id="page4" class="hidden"><div class="eyebrow">Suas vagas em um só lugar</div><h1>Minhas oportunidades</h1><p>Salve vagas para depois, acompanhe candidaturas e consulte análises quando desejar.</p><div class="row"><button class="btn" type="button" onclick="go(2)">+ Adicionar oportunidade</button><button id="refreshOpportunitiesBtn" class="btn outline" type="button">Atualizar lista</button></div><p id="opportunitiesStatus" class="muted" role="status" aria-live="polite"></p><div id="opportunitiesList" style="margin-top:20px"></div></section>
 
-<section id="page5" class="hidden"><h1>Prioridades de aprendizado</h1><div class="card soft" aria-labelledby="recurringGapsTitle" style="border-color:#c9c1f5;border-left:4px solid #6747c7"><h2 id="recurringGapsTitle">Lacunas recorrentes</h2><p><strong>Decida o que estudar primeiro.</strong> A Trilha compara suas análises salvas e mostra quais requisitos apareceram como lacuna ou ponto a verificar em mais de uma vaga. Quanto mais vezes um requisito aparecer, mais atenção ele merece na hora de planejar seus estudos.</p><p class="muted">Consulte todas as vagas analisadas ou filtre pelo mês em que a análise foi feita.</p><label class="field" for="recurringGapsMonth">Mês da análise</label><select id="recurringGapsMonth"><option value="">Todos os meses</option></select><div id="recurringGaps" aria-live="polite"></div></div></section>
+<section id="page5" class="hidden"><h1>Prioridades de aprendizado</h1><div class="card soft" aria-labelledby="recurringGapsTitle" style="border-color:#c9c1f5;border-left:4px solid #6747c7"><h2 id="recurringGapsTitle">Lacunas recorrentes</h2><p><strong>Decida o que estudar primeiro.</strong> A Trilha compara suas análises salvas e mostra quais requisitos apareceram como lacuna ou ponto a verificar em mais de uma vaga. Quanto mais vezes um requisito aparecer, mais atenção ele merece na hora de planejar seus estudos.</p><p class="muted">Este painel considera até 100 análises recentes. O filtro por mês se aplica a esse conjunto.</p><label class="field" for="recurringGapsMonth">Mês da análise</label><select id="recurringGapsMonth"><option value="">Todos os meses</option></select><div id="recurringGaps" aria-live="polite"></div></div></section>
 </main><footer><span class="footer-line">Idealizado e desenvolvido por <strong>Evana Carvalho</strong>.</span><span class="footer-line">Projeto final da formação em IA Aplicada na {reprograma}.</span></footer></div>
 <script>
 const retornoDoLogin=new URLSearchParams(location.hash.slice(1)).has("access_token")||new URLSearchParams(location.search).has("code");
@@ -253,7 +253,7 @@ function mostrarLacunasRecorrentes(vagas){
  const total=vagasUnicasAnalisadas(filtradas).length;
  const lacunas=resumirLacunasRecorrentes(filtradas);
  const resumo=document.createElement("p");
- resumo.textContent=total+" vaga"+(total===1?"":"s")+" analisada"+(total===1?"":"s")+(mes?" no mês selecionado.":" em todo o histórico.");
+ resumo.textContent=total+" vaga"+(total===1?"":"s")+" analisada"+(total===1?"":"s")+(mes?" no mês selecionado.":" no conjunto consultado.");
  painel.replaceChildren(resumo);
  if(!lacunas.length){
   const vazio=document.createElement("p");
@@ -294,15 +294,12 @@ async function carregarLacunasRecorrentes(){
  const pessoaId=usuario.id,analises=[];
  painel.textContent="Carregando lacunas...";
  try{
-  for(let inicio=0;;inicio+=500){
-   const {data,error}=await supabase.from("analises")
-    .select("id,criado_em,lacunas,vaga:vagas!analises_vaga_id_fkey!inner(id,titulo,empresa,descricao)")
-    .eq("usuario_id",pessoaId).order("criado_em",{ascending:false}).order("id",{ascending:false}).range(inicio,inicio+499);
-   if(pessoaId!==usuario?.id || requisicao!==requisicaoLacunas)return;
-   if(error)throw error;
-   analises.push(...(data||[]));
-   if(!data || data.length<500)break;
-  }
+  const {data,error}=await supabase.from("analises")
+   .select("id,criado_em,lacunas,vaga:vagas!analises_vaga_id_fkey!inner(id,titulo,empresa,descricao)")
+   .eq("usuario_id",pessoaId).order("criado_em",{ascending:false}).order("id",{ascending:false}).limit(100);
+  if(pessoaId!==usuario?.id || requisicao!==requisicaoLacunas)return;
+  if(error)throw error;
+  analises.push(...(data||[]));
   const anterior=filtro.value;
   filtro.replaceChildren(new Option("Todos os meses",""));
   const meses=[...new Set(analises.map(a=>mesDaAnalise(a.criado_em)).filter(Boolean))].sort().reverse();
