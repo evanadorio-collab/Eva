@@ -74,6 +74,7 @@ main h2,main h3,.choice-group legend{color:var(--trilha-purple)}
 .subsection,.choice-group,.item{border-color:#e1d9ee}
 input,textarea,select{color:#30263e;border-color:#d4cbe4}
 #recurringGapsTitle{color:var(--trilha-purple)}
+#recurringGapsMonth{font:inherit;max-width:100%;padding:10px;border:1px solid #bbb;border-radius:8px;margin-bottom:12px;background:white;color:#202637}.recurring-gap{padding:16px 0;border-top:1px solid #d8d9ed}.recurring-gap summary{cursor:pointer;font-weight:700;line-height:1.6}.gap-table-scroll{overflow-x:auto}.gap-table{width:100%;border-collapse:collapse;margin-top:12px}.gap-table th,.gap-table td{text-align:left;padding:12px;border-bottom:1px solid #d8d9ed;font-size:1rem}.gap-table th{color:var(--trilha-purple)}
 </style></head><body>
 <header><div class="brand" aria-label="Trilha"><svg class="brand-logo" viewBox="0 0 64 80" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><rect x="29" y="2" width="7" height="76" rx="3.5" fill="#fff"/><path d="M13 16 Q10 17 10 21 V30 Q10 34 14 33 L51 27 L62 18 L51 11 Z" fill="#c0f450"/><path d="M10 38 L1 47 L11 54 L50 48 Q54 47 54 43 V34 Q54 30 50 31 Z" fill="#9527f5"/><path d="M14 58 Q10 59 10 63 V72 Q10 76 14 75 L51 69 L62 60 L51 53 Z" fill="#00adb5"/></svg><span class="brand-word">Trilha</span></div><div class="tag">O caminho para quem sabe onde quer chegar.</div><div class="accountActions"><button id="mobileMenuButton" class="btn outline" type="button" aria-controls="mobileMenuDrawer" aria-expanded="false" aria-haspopup="dialog"><span aria-hidden="true">☰</span> Menu</button><button id="logoutBtn" class="btn outline hidden" type="button">Sair</button></div></header>
 <div class="wrap"><nav id="primaryNavigation" class="steps" aria-label="Navegação principal"><button class="step active" data-page="0">Início</button><button class="step" data-page="1">Meu currículo</button><button class="step" data-page="2">Analisar vagas</button><button class="step" data-page="3">Resultado da análise</button><button class="step" data-page="4">Minhas oportunidades</button><button class="step" data-page="5">Lacunas recorrentes</button></nav><dialog id="mobileMenuDrawer" aria-label="Menu da Trilha"><button id="mobileMenuClose" class="btn outline" type="button" autofocus>Fechar menu</button></dialog>
@@ -129,7 +130,7 @@ input,textarea,select{color:#30263e;border-color:#d4cbe4}
 <section id="page3" class="hidden"><div class="eyebrow">Etapa 3 de 3 · Análise por IA</div><h1>Uma visão mais clara da oportunidade.</h1><p id="jobtitle"></p><div class="grid"><div class="card soft"><span class="pill">Estimativa de aderência por IA · não é chance de contratação</span><p class="muted">Compatibilidade estimada</p><div class="score"><span id="scoreValue">—</span><small>%</small></div><p id="scoreLevel" style="font-weight:700;font-size:1.1rem;margin-top:4px" aria-live="polite"></p><div class="bar"><div id="scoreBar" style="width:0%"></div></div><h3>Justificativa</h3><p id="analysisReason"></p><h3>Critérios utilizados</h3><p id="analysisCriteria" class="muted"></p></div><div class="card"><h3>Pontos de aderência e evidências</h3><div id="analysisStrengths"></div><h3 style="margin-top:22px">Lacunas e pontos a verificar</h3><div id="analysisGaps"></div></div></div><div class="card" style="margin-top:20px"><h3>Recomendações</h3><div id="analysisRecommendations"></div><h3>Atenção</h3><div id="analysisWarnings"></div><p class="muted">Resultado produzido por IA a partir do perfil salvo e do anúncio informado. A pontuação é heurística, sujeita a erros, e não prevê decisões de recrutadores.</p><p id="analysisSaveStatus" class="muted" role="status"></p><button id="adaptResumeBtn" class="btn" type="button">Adaptar currículo para esta vaga</button><p id="adaptResumeStatus" class="muted" role="status"></p><div id="adaptResumePanel" class="hidden"><label class="field" for="adaptResumeText">Currículo adaptado</label><p class="muted">Revise os dados antes de usar o currículo.</p><textarea id="adaptResumeText" rows="16" style="width:100%"></textarea><button id="printAdaptedResumeBtn" class="btn outline" type="button">Baixar em PDF</button></div><button id="newAnalysisBtn" class="btn alt" type="button">Analisar outra vaga</button> <button class="btn outline" onclick="go(1)">Revisar currículo cadastrado</button></div></section>
 <section id="page4" class="hidden"><div class="eyebrow">Suas vagas em um só lugar</div><h1>Minhas oportunidades</h1><p>Salve vagas para depois, acompanhe candidaturas e consulte análises quando desejar.</p><div class="row"><button class="btn" type="button" onclick="go(2)">+ Adicionar oportunidade</button><button id="refreshOpportunitiesBtn" class="btn outline" type="button">Atualizar lista</button></div><p id="opportunitiesStatus" class="muted" role="status" aria-live="polite"></p><div id="opportunitiesList" style="margin-top:20px"></div></section>
 
-<section id="page5" class="hidden"><h1>Prioridades de aprendizado</h1><div class="card soft" aria-labelledby="recurringGapsTitle" style="border-color:#c9c1f5;border-left:4px solid #6747c7"><h2 id="recurringGapsTitle">Lacunas recorrentes</h2><p><strong>Decida o que estudar primeiro.</strong> A Trilha compara suas análises salvas e mostra quais requisitos apareceram como lacuna ou ponto a verificar em mais de uma vaga. Quanto mais vezes um requisito aparecer, mais atenção ele merece na hora de planejar seus estudos.</p><p class="muted">Este painel considera até 30 das suas análises mais recentes.</p><div id="recurringGaps" aria-live="polite"></div></div></section>
+<section id="page5" class="hidden"><h1>Prioridades de aprendizado</h1><div class="card soft" aria-labelledby="recurringGapsTitle" style="border-color:#c9c1f5;border-left:4px solid #6747c7"><h2 id="recurringGapsTitle">Lacunas recorrentes</h2><p><strong>Decida o que estudar primeiro.</strong> A Trilha compara suas análises salvas e mostra quais requisitos apareceram como lacuna ou ponto a verificar em mais de uma vaga. Quanto mais vezes um requisito aparecer, mais atenção ele merece na hora de planejar seus estudos.</p><p class="muted">Consulte todas as vagas analisadas ou filtre pelo mês em que a análise foi feita.</p><label class="field" for="recurringGapsMonth">Mês da análise</label><select id="recurringGapsMonth"><option value="">Todos os meses</option></select><div id="recurringGaps" aria-live="polite"></div></div></section>
 </main><footer><span class="footer-line">Idealizado e desenvolvido por <strong>Evana Carvalho</strong>.</span><span class="footer-line">Projeto final da formação em IA Aplicada na {reprograma}.</span></footer></div>
 <script>
 const retornoDoLogin=new URLSearchParams(location.hash.slice(1)).has("access_token")||new URLSearchParams(location.search).has("code");
@@ -206,19 +207,29 @@ function ultimaAnalise(vaga){
  return (vaga.analises || []).reduce((ultima,analise)=>
   !ultima || analise.criado_em > ultima.criado_em ? analise : ultima,null);
 }
-function resumirLacunasRecorrentes(vagas){
- const analisesPorVaga=new Map();
+const fusoLacunas="America/Sao_Paulo";
+function mesDaAnalise(data){
+ const date=new Date(data);
+ if(!data || Number.isNaN(date.getTime()))return "";
+ const partes=new Intl.DateTimeFormat("en-CA",{timeZone:fusoLacunas,year:"numeric",month:"2-digit"}).formatToParts(date);
+ return partes.find(p=>p.type==="year").value+"-"+partes.find(p=>p.type==="month").value;
+}
+function vagasUnicasAnalisadas(vagas){
+ const unicas=new Map();
  for(const vaga of vagas){
   const analise=ultimaAnalise(vaga);
   if(!analise)continue;
   const chave=vaga.descricao
    ? JSON.stringify([vaga.titulo,vaga.empresa,vaga.descricao].map(normalizarTexto))
    : vaga.id;
-  const anterior=analisesPorVaga.get(chave);
-  if(!anterior || analise.criado_em > anterior.criado_em)analisesPorVaga.set(chave,analise);
+  const anterior=unicas.get(chave);
+  if(!anterior || analise.criado_em>anterior.analise.criado_em)unicas.set(chave,{vaga,analise});
  }
+ return [...unicas.values()];
+}
+function resumirLacunasRecorrentes(vagas){
  const contagem=new Map();
- for(const analise of analisesPorVaga.values()){
+ for(const {vaga,analise} of vagasUnicasAnalisadas(vagas)){
   if(!Array.isArray(analise.lacunas))continue;
   const requisitosDaVaga=new Set();
   for(const lacuna of analise.lacunas){
@@ -227,8 +238,9 @@ function resumirLacunasRecorrentes(vagas){
    const chave=normalizarTexto(requisito);
    if(!chave || requisitosDaVaga.has(chave))continue;
    requisitosDaVaga.add(chave);
-   const item=contagem.get(chave) || {requisito:requisito.trim(),vagas:0};
+   const item=contagem.get(chave) || {requisito:requisito.trim(),vagas:0,ocorrencias:[]};
    item.vagas+=1;
+   item.ocorrencias.push({titulo:vaga.titulo,empresa:vaga.empresa,data:analise.criado_em});
    contagem.set(chave,item);
   }
  }
@@ -236,31 +248,76 @@ function resumirLacunasRecorrentes(vagas){
   .sort((a,b)=>b.vagas-a.vagas || a.requisito.localeCompare(b.requisito,"pt-BR"));
 }
 function mostrarLacunasRecorrentes(vagas){
- const painel=$("recurringGaps");
- const lacunas=resumirLacunasRecorrentes(vagas);
+ const painel=$("recurringGaps"),mes=$("recurringGapsMonth").value;
+ const filtradas=vagas.map(v=>({...v,analises:(v.analises||[]).filter(a=>!mes || mesDaAnalise(a.criado_em)===mes)}));
+ const total=vagasUnicasAnalisadas(filtradas).length;
+ const lacunas=resumirLacunasRecorrentes(filtradas);
+ const resumo=document.createElement("p");
+ resumo.textContent=total+" vaga"+(total===1?"":"s")+" analisada"+(total===1?"":"s")+(mes?" no mês selecionado.":" em todo o histórico.");
+ painel.replaceChildren(resumo);
  if(!lacunas.length){
-  painel.textContent="Quando uma lacuna ou um ponto a verificar aparecer em duas ou mais vagas analisadas, ele aparecerá aqui.";
-  return;
+  const vazio=document.createElement("p");
+  vazio.textContent=total?"Nenhuma lacuna ou ponto a verificar apareceu em duas ou mais vagas neste período.":"Nenhuma vaga analisada neste período.";
+  painel.append(vazio);return;
  }
- const lista=document.createElement("ul");
  for(const item of lacunas){
-  const linha=document.createElement("li");
-  linha.textContent=item.requisito+" · "+item.vagas+" vagas";
-  lista.append(linha);
+  const detalhe=document.createElement("details");
+  detalhe.className="recurring-gap";
+  const titulo=document.createElement("summary");
+  titulo.textContent=item.requisito+" · Identificada em "+item.vagas+" de "+total+" vagas analisadas ("+Math.round(item.vagas/total*100)+"%)";
+  detalhe.append(titulo);
+  const nota=document.createElement("p");
+  nota.className="muted";
+  nota.textContent="Vagas em que este requisito apareceu como lacuna ou ponto a verificar. Cada vaga é contada uma vez, usando sua análise mais recente no período.";
+  detalhe.append(nota);
+  const rolagem=document.createElement("div");rolagem.className="gap-table-scroll";
+  const tabela=document.createElement("table");tabela.className="gap-table";
+  const cabecalho=tabela.createTHead().insertRow();
+  for(const nome of ["Vaga","Empresa","Data da análise"]){const th=document.createElement("th");th.scope="col";th.textContent=nome;cabecalho.append(th);}
+  const corpo=tabela.createTBody();
+  for(const vaga of item.ocorrencias){
+   const linha=corpo.insertRow();
+   const data=new Date(vaga.data);
+   for(const valor of [vaga.titulo||"Vaga sem título",vaga.empresa||"Não informada",vaga.data&&!Number.isNaN(data.getTime())?data.toLocaleDateString("pt-BR",{timeZone:fusoLacunas}):"Não informada"]){
+    linha.insertCell().textContent=valor;
+   }
+  }
+  rolagem.append(tabela);detalhe.append(rolagem);painel.append(detalhe);
  }
- painel.replaceChildren(lista);
 }
+let requisicaoLacunas=0;
 async function carregarLacunasRecorrentes(){
- const painel=$("recurringGaps");
+ const painel=$("recurringGaps"),filtro=$("recurringGapsMonth");
+ const requisicao=++requisicaoLacunas;
+ filtro.disabled=true;filtro.onchange=null;
  if(!usuario){painel.textContent="Entre na sua conta para consultar suas lacunas.";return;}
- const pessoaId=usuario.id;
+ const pessoaId=usuario.id,analises=[];
  painel.textContent="Carregando lacunas...";
- const {data:analises,error}=await supabase.from("analises")
-  .select("criado_em,lacunas,vaga:vagas!analises_vaga_id_fkey!inner(id,titulo,empresa,descricao)")
-  .eq("usuario_id",pessoaId).order("criado_em",{ascending:false}).order("id",{ascending:false}).limit(30);
- if(pessoaId!==usuario?.id)return;
- if(error){painel.textContent="Não foi possível carregar as lacunas. Tente abrir esta aba novamente.";return;}
- mostrarLacunasRecorrentes((analises || []).map(({vaga,...analise})=>({...vaga,analises:[analise]})));
+ try{
+  for(let inicio=0;;inicio+=500){
+   const {data,error}=await supabase.from("analises")
+    .select("id,criado_em,lacunas,vaga:vagas!analises_vaga_id_fkey!inner(id,titulo,empresa,descricao)")
+    .eq("usuario_id",pessoaId).order("criado_em",{ascending:false}).order("id",{ascending:false}).range(inicio,inicio+499);
+   if(pessoaId!==usuario?.id || requisicao!==requisicaoLacunas)return;
+   if(error)throw error;
+   analises.push(...(data||[]));
+   if(!data || data.length<500)break;
+  }
+  const anterior=filtro.value;
+  filtro.replaceChildren(new Option("Todos os meses",""));
+  const meses=[...new Set(analises.map(a=>mesDaAnalise(a.criado_em)).filter(Boolean))].sort().reverse();
+  for(const mes of meses){
+   const rotulo=new Date(mes+"-15T12:00:00Z").toLocaleDateString("pt-BR",{month:"long",year:"numeric",timeZone:fusoLacunas});
+   filtro.append(new Option(rotulo,mes));
+  }
+  filtro.value=meses.includes(anterior)?anterior:"";
+  const vagas=analises.filter(a=>a.vaga).map(({vaga,...analise})=>({...vaga,analises:[analise]}));
+  filtro.onchange=()=>mostrarLacunasRecorrentes(vagas);
+  filtro.disabled=false;
+  mostrarLacunasRecorrentes(vagas);
+ }catch(error){
+  if(pessoaId===usuario?.id && requisicao===requisicaoLacunas)painel.textContent="Não foi possível carregar as lacunas. Tente abrir esta aba novamente.";
+ }
 }
 async function carregarOportunidades(){
  const list=$("opportunitiesList");list.textContent="Carregando oportunidades...";
